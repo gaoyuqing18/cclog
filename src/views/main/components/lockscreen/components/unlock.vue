@@ -50,7 +50,7 @@
 <script>
 import Cookies from 'js-cookie';
 import { login } from '@/libs/api.js';
-import sha1 from 'sha1';
+// import sha1 from 'sha1';
 import { mapState } from 'vuex';
 export default {
     name: 'Unlock',
@@ -80,7 +80,9 @@ export default {
             this.$refs.inputEle.focus();
         },
         handleUnlock() {
-            let newpwd = sha1(this.password);
+            // let newpwd = sha1(this.password);
+            let newpwd = this.password;
+
             login({ username: this.userInfo.username, password: newpwd }).then(
                 res => {
                     if (res.data.success) {

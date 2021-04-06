@@ -66,7 +66,7 @@ import Cookies from 'js-cookie';
 import { login, register } from '../../libs/api.js';
 import { mapActions } from 'vuex';
 
-import sha1 from 'sha1';
+// import sha1 from 'sha1';
 export default {
     data() {
         const valideRePassword = (rule, value, callback) => {
@@ -160,23 +160,25 @@ export default {
             let params = this.is_login ? this.loginForm : this.registerForm;
             this.$refs[ref].validate(async valid => {
                 if (valid) {
-                    let newpwd = sha1(params.password);
+                    let newpwd = params.password;
+
                     const res = this.is_login
                         ? await login({ username: params.username, password: newpwd })
                         : await register({ username: params.username, password: newpwd });
-                    if (res.data.success) {
-                        const userInfo = res.data.data;
-                        if (userInfo.is_manager === 1) {
+                    if (res.data.state == 'success') {
+                        res.data.is_manager = 1
+                        const userInfo = res.data;
+                        if (userInfo.is_manager == 1) {
                             Cookies.set('access', 0);
                         } else {
                             Cookies.set('access', 1);
                         }
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                        Cookies.set('user', userInfo.username);
-                        await this.setUserInfo();
-                        this.$router.push('/');
+                        Cookies.set('user', params.username);
+                        // await this.setUserInfo();
+                        // this.$router.push('/home');
                     } else {
-                        this.$Message.warning(res.data.desc);
+                        this.$Message.warning(res.data.state);
                     }
                 }
             });

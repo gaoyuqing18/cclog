@@ -53,6 +53,9 @@ module.exports = merge(webpackBaseConfig, {
         proxy: {
             '/cms': {
                 target: 'http://8.131.85.93:8080',
+                pathRewrite: {
+                    '^/cms': ''
+                  },
                 changeOrigin: true,
                 secure: false
             }
