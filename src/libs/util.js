@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs'
 import env from '../../build/env';
 
 let util = {};
@@ -20,7 +21,11 @@ util.ajax = axios.create({
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 util.ajax.interceptors.request.use(config => {
-    config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
+    // config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    if (config.method === 'post' && config.headers['Content-Type'] !== 'multipart/form-data') {
+        config.data = qs.stringify(config.data)
+      }
     return config;
 });
 
