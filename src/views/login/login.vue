@@ -12,8 +12,8 @@
                 <p class='login-con-header' slot="title">欢迎登录</p>
                 <div class="form-con">
                     <Form ref="loginForm" :model="loginForm" :rules="rules">
-                        <FormItem prop="userName">
-                            <Input v-model="loginForm.userName" placeholder="用户名" />
+                        <FormItem prop="username">
+                            <Input v-model="loginForm.username" placeholder="用户名" />
                         </FormItem>
                         <FormItem prop="password">
                             <Input type="password" v-model="loginForm.password" placeholder="密码" />
@@ -37,8 +37,8 @@
                 </p>
                 <div class="form-con">
                     <Form ref="registerForm" :model="registerForm" :rules="rules">
-                        <FormItem prop="userName">
-                            <Input v-model="registerForm.userName" placeholder="用户名" />
+                        <FormItem prop="username">
+                            <Input v-model="registerForm.username" placeholder="用户名" />
                         </FormItem>
                         <FormItem prop="password">
                             <Input type="password" v-model="registerForm.password" placeholder="密码" />
@@ -78,16 +78,16 @@ export default {
         };
         return {
             loginForm: {
-                userName: '',
+                username: '',
                 password: ''
             },
             registerForm: {
-                userName: '',
+                username: '',
                 password: '',
                 password2: ''
             },
             rules: {
-                userName: [{ required: true, message: '账号不能为空', trigger: 'change' }],
+                username: [{ required: true, message: '账号不能为空', trigger: 'change' }],
                 password: [
                     { required: true, message: '请输入密码', trigger: 'change' },
                     { min: 6, message: '请至少输入6个字符', trigger: 'change' },
@@ -162,8 +162,8 @@ export default {
                 if (valid) {
                     let newpwd = sha1(params.password);
                     const res = this.is_login
-                        ? await login({ userName: params.userName, password: newpwd })
-                        : await register({ userName: params.userName, password: newpwd });
+                        ? await login({ username: params.username, password: newpwd })
+                        : await register({ username: params.username, password: newpwd });
                     if (res.data.success) {
                         const userInfo = res.data.data;
                         if (userInfo.is_manager === 1) {
@@ -172,7 +172,7 @@ export default {
                             Cookies.set('access', 1);
                         }
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                        Cookies.set('user', userInfo.userName);
+                        Cookies.set('user', userInfo.username);
                         await this.setUserInfo();
                         this.$router.push('/');
                     } else {

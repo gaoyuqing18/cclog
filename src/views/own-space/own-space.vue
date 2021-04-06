@@ -35,16 +35,16 @@
                         </Upload>
                     </FormItem>
                     <FormItem label="用户姓名："
-                              prop="userName">
+                              prop="username">
                         <div style="display:inline-block;width:200px;">
-                            <span v-if='!showNameInput'>{{userForm.userName}}</span>
+                            <span v-if='!showNameInput'>{{userForm.username}}</span>
                             <Icon v-if='!showNameInput'
                                   type="compose"
                                   size="18"
                                   class='edit-name'
                                   @click.native='showNameInput = true' />
                             <Input v-else
-                                   v-model="userForm.userName"></Input>
+                                   v-model="userForm.username"></Input>
                         </div>
                     </FormItem>
                     <FormItem label="注册于：">
@@ -138,7 +138,7 @@ export default {
         };
         return {
             userForm: {
-                userName: ''
+                username: ''
             },
             uid: '', // 登录用户的userId
             save_loading: false,
@@ -153,7 +153,7 @@ export default {
                 rePass: ''
             },
             validate: {
-                userName: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+                username: [{ required: true, message: '请输入姓名', trigger: 'change' }],
                 oldPass: [{ required: true, message: '请输入原密码', trigger: 'change' }],
                 newPass: [
                     { required: true, message: '请输入新密码', trigger: 'change' },
@@ -169,8 +169,8 @@ export default {
         };
     },
     mounted() {
-        const { userName, avatar_url, _id } = JSON.parse(localStorage.userInfo);
-        this.userForm = { userName, avatar_url, _id };
+        const { username, avatar_url, _id } = JSON.parse(localStorage.userInfo);
+        this.userForm = { username, avatar_url, _id };
     },
     computed: {
         userInfo() {
@@ -238,7 +238,7 @@ export default {
                         }
                         this.$Message.success(res.data.desc);
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                        Cookies.set('user', userInfo.userName);
+                        Cookies.set('user', userInfo.username);
                         await this.setUserInfo();
                     } else {
                         this.$Message.error(res.data.desc);

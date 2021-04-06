@@ -29,7 +29,7 @@
                              type="flex"
                              align="middle">
                             <div>
-                                <b class="card-user-infor-name">{{userInfo.userName}}</b>
+                                <b class="card-user-infor-name">{{userInfo.username}}</b>
                                 <p>{{userInfo.is_manager?'管理员':'游客'}}</p>
                             </div>
                         </Row>

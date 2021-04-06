@@ -7,7 +7,7 @@ util.title = function(title) {
     window.document.title = title;
 };
 
-const ajaxUrl = env === 'development' ? 'http://localhost:3000/cms' : 'https://blog.liuzuann.com/cms';
+const ajaxUrl = env === 'development' ? 'http://localhost:8088/cms' : 'https://blog.liuzuann.com/cms';
 
 util.routerModel = env === 'development' ? 'hash':'history';
 
@@ -15,8 +15,9 @@ util.ajaxUrl = ajaxUrl;
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,
-    timeout: 30000
+    timeout: 30000,
 });
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 util.ajax.interceptors.request.use(config => {
     config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';

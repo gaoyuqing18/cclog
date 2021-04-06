@@ -38,21 +38,23 @@ module.exports = merge(webpackBaseConfig, {
             filename: 'index.html',
             template: 'index.dev.html',
             inject: true
-          })
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         contentBase: path.resolve(__dirname, './'),
         host: 'localhost',
-        port: 8081,
-        inline: true,
-        compress: true,
+        port: 8088,
+        inline: true, // 实时刷新
+        compress: true, // 使用热加载插件 HotModuleReplacementPlugin
         open: true,
         hot: true,
         hotOnly: true,
         proxy: {
             '/cms': {
                 target: 'http://8.131.85.93:8080',
-                changeOrigin: true
+                changeOrigin: true,
+                secure: false
             }
         }
     }

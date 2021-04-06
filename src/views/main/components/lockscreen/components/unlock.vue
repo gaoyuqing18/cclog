@@ -81,7 +81,7 @@ export default {
         },
         handleUnlock() {
             let newpwd = sha1(this.password);
-            login({ userName: this.userInfo.userName, password: newpwd }).then(
+            login({ username: this.userInfo.username, password: newpwd }).then(
                 res => {
                     if (res.data.success) {
                         this.avatorLeft = '0px';
