@@ -161,10 +161,9 @@ export default {
             this.$refs[ref].validate(async valid => {
                 if (valid) {
                     let newpwd = params.password;
-
                     const res = this.is_login
                         ? await login({ username: params.username, password: newpwd })
-                        : await register({ username: params.username, password: newpwd });
+                        : await register({ userName: params.username, userId: params.username, password: newpwd });
                     if (res.data.state == 'success') {
                         res.data.is_manager = 1
                         const userInfo = res.data;

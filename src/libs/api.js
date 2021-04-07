@@ -35,7 +35,7 @@ export const addCategory = data => http('post', '/addCategory', data);
 export const editCategory = data => http('post', '/editCategory', data);
 
 // 新用户注册
-export const register = data => http('post', '/register', data);
+export const register = data => http('post', '/userRegist', data);
 
 // 用户登录
 export const login = data => http('post', '/login', data);
