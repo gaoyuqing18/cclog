@@ -18,12 +18,16 @@ util.ajax = axios.create({
     baseURL: ajaxUrl,
     timeout: 30000,
 });
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 util.ajax.interceptors.request.use(config => {
+    if (config.url.includes('/login')) {
+        config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    } else {
+        config.headers['Content-Type'] = 'application/json; charset=UTF-8'
+    }
+    console.log(config.headers['Content-Type'], 'Content-Type')
     // config.headers.Authorization = (localStorage.userInfo && JSON.parse(localStorage.userInfo).token) || '';
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    if (config.method === 'post' && config.headers['Content-Type'] !== 'multipart/form-data') {
+    if (config.headers['Content-Type'] == 'application/x-www-form-urlencoded') {
         config.data = qs.stringify(config.data)
       }
     return config;

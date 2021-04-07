@@ -175,7 +175,7 @@ export default {
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', params.username);
                         // await this.setUserInfo();
-                        // this.$router.push('/home');
+                        // this.$router.push('/');
                     } else {
                         this.$Message.warning(res.data.state);
                     }
