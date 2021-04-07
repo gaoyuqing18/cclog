@@ -41,7 +41,7 @@ export const register = data => http('post', '/userRegist', data);
 export const login = data => http('post', '/login', data);
 
 // 修改用户信息
-export const editUserInfo = data => http('post', '/editUserInfo', data);
+export const editUserInfo = data => http('post', '/changeUser', data);
 
 // 上传文件url
 export const uploadUrl = util.ajaxUrl + '/upload';

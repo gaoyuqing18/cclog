@@ -164,20 +164,21 @@ export default {
                     const res = this.is_login
                         ? await login({ username: params.username, password: newpwd })
                         : await register({ userName: params.username, userId: params.username, password: newpwd });
-                    if (res.data.state == 'success') {
-                        res.data.is_manager = 1
-                        const userInfo = res.data;
-                        if (userInfo.is_manager == 1) {
-                            Cookies.set('access', 0);
-                        } else {
-                            Cookies.set('access', 1);
-                        }
+                    if (res.data.code && res.data.code == 200) {
+                        const userInfo = res.data.data;
+                        Cookies.set('access', 0);
+                        // if (userInfo.is_manager == 1) {
+                        //     Cookies.set('access', 0);
+                        // } else {
+                        //     Cookies.set('access', 1);
+                        // }
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', params.username);
+                        this.$Message.success(res.data.desc);
                         // await this.setUserInfo();
-                        // this.$router.push('/');
+                        this.$router.push('/');
                     } else {
-                        this.$Message.warning(res.data.state);
+                        this.$Message.warning(res.data.desc);
                     }
                 }
             });

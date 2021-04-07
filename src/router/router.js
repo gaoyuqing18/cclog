@@ -155,6 +155,21 @@ export const appRouter = [
                 component: () => import('@/views/image-manage/upload/upload.vue')
             }
         ]
+    },
+    {
+        path: '/courses',
+        icon: 'android-upload',
+        name: 'courses',
+        title: '课程管理',
+        component: Main,
+        children: [
+            {
+                path: 'retrieveCourses',
+                title: '课程管理',
+                name: 'retrieveCourses',
+                component: () => import('@/views/courses-manage/retrieveCourses/retrieveCourses.vue')
+            }
+        ]
     }
 ];
 

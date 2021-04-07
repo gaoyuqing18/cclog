@@ -15,7 +15,7 @@
                       :label-width="100"
                       label-position="right"
                       :rules="validate">
-                    <FormItem label="用户头像：">
+                    <!-- <FormItem label="用户头像：">
                         <Upload ref="upload"
                                 :show-upload-list="false"
                                 :on-success="handleSuccess"
@@ -33,28 +33,18 @@
                                 </div>
                             </div>
                         </Upload>
-                    </FormItem>
+                    </FormItem> -->
                     <FormItem label="用户姓名："
-                              prop="username">
+                              prop="userName">
                         <div style="display:inline-block;width:200px;">
-                            <span v-if='!showNameInput'>{{userForm.username}}</span>
+                            <span v-if='!showNameInput'>{{userForm.userName}}</span>
                             <Icon v-if='!showNameInput'
                                   type="compose"
                                   size="18"
                                   class='edit-name'
                                   @click.native='showNameInput = true' />
                             <Input v-else
-                                   v-model="userForm.username"></Input>
-                        </div>
-                    </FormItem>
-                    <FormItem label="注册于：">
-                        <div style="display:inline-block;width:200px;">
-                            <span v-text='new Date(userInfo.createTime).toLocaleString()'></span>
-                        </div>
-                    </FormItem>
-                    <FormItem label="最近登录：">
-                        <div style="display:inline-block;width:200px;">
-                            <span v-text='new Date(userInfo.lastLoginTime).toLocaleString()'></span>
+                                   v-model="userForm.userName"></Input>
                         </div>
                     </FormItem>
                     <FormItem label="登录密码：">
@@ -138,7 +128,7 @@ export default {
         };
         return {
             userForm: {
-                username: ''
+                userName: ''
             },
             uid: '', // 登录用户的userId
             save_loading: false,
@@ -153,7 +143,7 @@ export default {
                 rePass: ''
             },
             validate: {
-                username: [{ required: true, message: '请输入姓名', trigger: 'change' }],
+                userName: [{ required: true, message: '请输入姓名', trigger: 'change' }],
                 oldPass: [{ required: true, message: '请输入原密码', trigger: 'change' }],
                 newPass: [
                     { required: true, message: '请输入新密码', trigger: 'change' },
@@ -169,8 +159,8 @@ export default {
         };
     },
     mounted() {
-        const { username, avatar_url, _id } = JSON.parse(localStorage.userInfo);
-        this.userForm = { username, avatar_url, _id };
+        const { userName, userId } = JSON.parse(localStorage.userInfo);
+        this.userForm = { userName, userId };
     },
     computed: {
         userInfo() {
@@ -227,22 +217,22 @@ export default {
                 if (valid) {
                     this.save_loading = true;
                     const res = await editUserInfo(this.userForm);
-                    if (res.data.success) {
+                    // if (res.data.success) {
                         this.save_loading = false;
                         this.showNameInput = false;
                         const userInfo = res.data.data;
-                        if (userInfo.is_manager === 1) {
-                            Cookies.set('access', 0);
-                        } else {
-                            Cookies.set('access', 1);
-                        }
-                        this.$Message.success(res.data.desc);
-                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                        Cookies.set('user', userInfo.username);
-                        await this.setUserInfo();
-                    } else {
-                        this.$Message.error(res.data.desc);
-                    }
+                        // if (userInfo.is_manager === 1) {
+                        //     Cookies.set('access', 0);
+                        // } else {
+                        //     Cookies.set('access', 1);
+                        // }
+                        // this.$Message.success(res.data.desc);
+                        // localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                        // Cookies.set('user', userInfo.userName);
+                        // await this.setUserInfo();
+                    // } else {
+                    //     this.$Message.error(res.data.desc);
+                    // }
                 }
             });
         },
@@ -252,9 +242,9 @@ export default {
         saveEditPass() {
             this.$refs['editPasswordForm'].validate(valid => {
                 if (valid) {
-                    this.savePassLoading = true;
-                    
-                    // you can write ajax request here
+                    this.userForm.password= this.editPasswordForm.newPass
+                    this.savePassLoading = false;
+                    this.editPasswordModal = false;
                 }
             });
         },
