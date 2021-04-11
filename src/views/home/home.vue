@@ -55,7 +55,6 @@
             </Row>
             </Col>
         </Row>
-
     </div>
 </template>
 
@@ -63,7 +62,6 @@
 import { mapState } from 'vuex';
 export default {
     name: 'home',
-    components: {},
     data() {
         return {};
     },

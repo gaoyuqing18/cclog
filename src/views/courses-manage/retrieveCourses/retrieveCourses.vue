@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div>
         <div style="width:100%;overflow:hidden;">
             <Button @click="createNew"
                     style="float:right;margin-bottom:10px;"
@@ -42,190 +42,196 @@
                         @click="handleCancel">取消</Button>
             </div>
         </Modal>
-    </div>
+    </div> -->
+    <image-floow> 
+    </image-floow>
 </template>
 
 <script>
-import { getAllCategories, addCategory, editCategory } from '@/libs/api';
+// import { getAllCategories, addCategory, editCategory } from '@/libs/api';
+import imageFloow from '~cpmponents/imagefloow.vue';
 
 export default {
+    components: {
+       imageFloow
+    },
     data() {
         return {
-            tableData: [],
-            showModal: false,
-            newData: {
-                status: 1
-            },
-            loading: false,
-            ruleValidate: {
-                name: [{ required: true, message: '请填写分类名称', trigger: 'change' }]
-            },
-            columns: [
-                {
-                    title: '分类名称',
-                    align: 'center',
-                    key: 'name'
-                },
-                {
-                    title: '所含文章数',
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('span', params.row.articles.length || '-');
-                    }
-                },
-                {
-                    title: '创建时间',
-                    align: 'center',
-                    key: 'createTime',
-                    render: (h, params) => {
-                        return h('span', params.row.createTime.slice(0, 10));
-                    }
-                },
-                {
-                    title: '操作',
-                    align: 'center',
-                    key: 'address',
-                    render: (h, params) => {
-                        return h('div', [
-                            h(
-                                'Button',
-                                {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.editorRow(params.row);
-                                        }
-                                    }
-                                },
-                                '编辑'
-                            ),
-                            h(
-                                'Button',
-                                {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        display: params.row.status == 1 ? '' : 'none'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.handelCategoryStatus(params.row._id, 0);
-                                        }
-                                    }
-                                },
-                                '删除'
-                            ),
-                            h(
-                                'Button',
-                                {
-                                    props: {
-                                        type: 'success',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        display: params.row.status == 0 ? '' : 'none'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.handelCategoryStatus(params.row._id, 1);
-                                        }
-                                    }
-                                },
-                                '恢复'
-                            )
-                        ]);
-                    }
-                }
-            ]
+            // tableData: [],
+            // showModal: false,
+            // newData: {
+            //     status: 1
+            // },
+            // loading: false,
+            // ruleValidate: {
+            //     name: [{ required: true, message: '请填写分类名称', trigger: 'change' }]
+            // },
+            // columns: [
+            //     {
+            //         title: '分类名称',
+            //         align: 'center',
+            //         key: 'name'
+            //     },
+            //     {
+            //         title: '所含文章数',
+            //         align: 'center',
+            //         render: (h, params) => {
+            //             return h('span', params.row.articles.length || '-');
+            //         }
+            //     },
+            //     {
+            //         title: '创建时间',
+            //         align: 'center',
+            //         key: 'createTime',
+            //         render: (h, params) => {
+            //             return h('span', params.row.createTime.slice(0, 10));
+            //         }
+            //     },
+            //     {
+            //         title: '操作',
+            //         align: 'center',
+            //         key: 'address',
+            //         render: (h, params) => {
+            //             return h('div', [
+            //                 h(
+            //                     'Button',
+            //                     {
+            //                         props: {
+            //                             type: 'primary',
+            //                             size: 'small'
+            //                         },
+            //                         style: {
+            //                             marginRight: '5px'
+            //                         },
+            //                         on: {
+            //                             click: () => {
+            //                                 this.editorRow(params.row);
+            //                             }
+            //                         }
+            //                     },
+            //                     '编辑'
+            //                 ),
+            //                 h(
+            //                     'Button',
+            //                     {
+            //                         props: {
+            //                             type: 'error',
+            //                             size: 'small'
+            //                         },
+            //                         style: {
+            //                             display: params.row.status == 1 ? '' : 'none'
+            //                         },
+            //                         on: {
+            //                             click: () => {
+            //                                 this.handelCategoryStatus(params.row._id, 0);
+            //                             }
+            //                         }
+            //                     },
+            //                     '删除'
+            //                 ),
+            //                 h(
+            //                     'Button',
+            //                     {
+            //                         props: {
+            //                             type: 'success',
+            //                             size: 'small'
+            //                         },
+            //                         style: {
+            //                             display: params.row.status == 0 ? '' : 'none'
+            //                         },
+            //                         on: {
+            //                             click: () => {
+            //                                 this.handelCategoryStatus(params.row._id, 1);
+            //                             }
+            //                         }
+            //                     },
+            //                     '恢复'
+            //                 )
+            //             ]);
+            //         }
+            //     }
+            // ]
         };
     },
-    methods: {
-        getList() {
-            getAllCategories().then(res => {
-                this.tableData = res.data;
-            });
-        },
-        createNew() {
-            this.showModal = true;
-            this.isCreate = true;
-            this.newData = {};
-        },
-        editorRow(row) {
-            this.showModal = true;
-            this.newData = { ...row };
-            this.isCreate = false;
-        },
-        handleSubmit() {
-            this.$refs.newData.validate(valid => {
-                if (valid) {
-                    this.loading = true;
-                    this.newData.link = this.newData.link || this.newData.name;
-                    let {_id, name, link ,status} = this.newData
-                    let params = {_id, name, link ,status}
-                    this.isCreate &&
-                        addCategory(params).then(
-                            res => {
-                                this.handleCancel();
-                                this.$Message.success(res.data.desc);
-                                this.getList();
-                            },
-                            err => {
-                                this.handleCancel();
-                                this.$Message.error(err.data.desc);
-                            }
-                        );
-                    !this.isCreate &&
-                        editCategory(params).then(
-                            res => {
-                                console.log(res)
-                                this.handleCancel();
-                                this.$Message.success(res.data.desc);
-                                this.getList();
-                            },
-                            err => {
-                                this.handleCancel();
-                                this.$Message.error(err.data.desc);
-                            }
-                        );
-                }
-            });
-        },
-        handleCancel() {
-            this.$refs['newData'].resetFields();
-            this.newData = { status: 1 };
-            this.loading = false;
-            this.showModal = false;
-        },
-        handleBeforeClose(bool) {
-            if (bool) {
-                this.$refs.newData.resetFields();
-            }
-        },
-        handelCategoryStatus(id, status) {
-            editCategory({ _id: id, status: status }).then(
-                res => {
-                    this.$Message.success(res.data.desc);
-                    this.getList();
-                },
-                err => {
-                    this.$Message.error(err.data.desc);
-                }
-            );
-        }
-    },
-    created() {
-        this.getList();
-    },
-    mounted() {},
-    watch: {}
+    // methods: {
+    //     getList() {
+    //         getAllCategories().then(res => {
+    //             this.tableData = res.data;
+    //         });
+    //     },
+    //     createNew() {
+    //         this.showModal = true;
+    //         this.isCreate = true;
+    //         this.newData = {};
+    //     },
+    //     editorRow(row) {
+    //         this.showModal = true;
+    //         this.newData = { ...row };
+    //         this.isCreate = false;
+    //     },
+    //     handleSubmit() {
+    //         this.$refs.newData.validate(valid => {
+    //             if (valid) {
+    //                 this.loading = true;
+    //                 this.newData.link = this.newData.link || this.newData.name;
+    //                 let {_id, name, link ,status} = this.newData
+    //                 let params = {_id, name, link ,status}
+    //                 this.isCreate &&
+    //                     addCategory(params).then(
+    //                         res => {
+    //                             this.handleCancel();
+    //                             this.$Message.success(res.data.desc);
+    //                             this.getList();
+    //                         },
+    //                         err => {
+    //                             this.handleCancel();
+    //                             this.$Message.error(err.data.desc);
+    //                         }
+    //                     );
+    //                 !this.isCreate &&
+    //                     editCategory(params).then(
+    //                         res => {
+    //                             console.log(res)
+    //                             this.handleCancel();
+    //                             this.$Message.success(res.data.desc);
+    //                             this.getList();
+    //                         },
+    //                         err => {
+    //                             this.handleCancel();
+    //                             this.$Message.error(err.data.desc);
+    //                         }
+    //                     );
+    //             }
+    //         });
+    //     },
+    //     handleCancel() {
+    //         this.$refs['newData'].resetFields();
+    //         this.newData = { status: 1 };
+    //         this.loading = false;
+    //         this.showModal = false;
+    //     },
+    //     handleBeforeClose(bool) {
+    //         if (bool) {
+    //             this.$refs.newData.resetFields();
+    //         }
+    //     },
+    //     handelCategoryStatus(id, status) {
+    //         editCategory({ _id: id, status: status }).then(
+    //             res => {
+    //                 this.$Message.success(res.data.desc);
+    //                 this.getList();
+    //             },
+    //             err => {
+    //                 this.$Message.error(err.data.desc);
+    //             }
+    //         );
+    //     }
+    // },
+    // created() {
+    //     this.getList();
+    // },
+    // mounted() {},
+    // watch: {}
 };
 </script>
 
