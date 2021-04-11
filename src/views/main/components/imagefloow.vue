@@ -75,8 +75,12 @@ export default {
         // };
     },
     methods: {
-        courseDetail() {
-            // this.$router.push({ path: `article-publish?_id=${data._id}` });
+        courseDetail(item) {
+            this.$router.push({ name: 'course_detail', params: {id: item.courseId}});
+        },
+        courseManage(item) {
+            this.$router.push({ name: 'course_manage', params: {id: item.courseId}});
+
         }
         // getList() {
         //     const params = { ...this.searchParams, page: this.page, pageSize: this.pageSize };

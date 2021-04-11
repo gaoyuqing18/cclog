@@ -7,7 +7,7 @@
             <scroll-bar ref="scrollBar">
                 <shrinkable-menu :shrink="shrink" @on-change="handleSubmenuChange" :theme="menuTheme" :before-push="beforePush" :open-names="openedSubmenuArr" :menu-list="menuList">
                     <div slot="top" class="logo-con">
-                        <p style="padding-left:22px;" v-show="!shrink">博客管理系统</p>
+                        <p style="padding-left:22px;" v-show="!shrink">课程管理系统</p>
                         <p v-show="shrink">CMS</p>
                     </div>
                 </shrinkable-menu>

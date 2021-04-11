@@ -73,10 +73,21 @@ export const otherRouter = {
             title: '消息中心',
             name: 'message_index',
             component: () => import('@/views/message/message.vue')
+        },
+        {
+            path: 'courses/retrieveCourses/:id',
+            name: 'course_detail',
+            title: '课程详情',
+            component: () => import('@/views/courses-manage/retrieveCourses/course-detail.vue')
+        },
+        {
+            path: 'courses/retrieveCourses/:id/coursManage',
+            name: 'course_manage',
+            title: '课程管理',
+            component: () => import('@/views/courses-manage/retrieveCourses/course-manage.vue')
         }
     ]
-};
-
+}
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
     {

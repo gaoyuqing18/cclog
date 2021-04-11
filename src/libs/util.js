@@ -4,7 +4,7 @@ import env from '../../build/env';
 
 let util = {};
 util.title = function(title) {
-    title = title || '刘祖安 | 博客管理系统';
+    title = title || '刘祖安 | 课程管理系统';
     window.document.title = title;
 };
 
