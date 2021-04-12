@@ -1,11 +1,12 @@
 import Vue from 'vue';
-import iview from 'iview';
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
 import {router} from './router/index';
 import {appRouter} from './router/router';
 import store from './store';
 import App from './app.vue';
 
-Vue.use(iview);
+Vue.use(ViewUI);
 
 new Vue({
     el: '#app',

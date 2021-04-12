@@ -45,3 +45,7 @@ export const editUserInfo = data => http('post', '/changeUser', data);
 
 // 上传文件url
 export const uploadUrl = util.ajaxUrl + '/upload';
+
+
+// 获取课程章节列表
+export const getAllChapters = (courseId) => http('get', `/exercise/common/${courseId}/courseManager/retrieveCourse`);
