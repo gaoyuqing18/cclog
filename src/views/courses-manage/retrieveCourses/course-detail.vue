@@ -17,7 +17,7 @@
                     :columns="columns"
                     :data="tableData"></Table>
                 <Modal v-model="showModal"
-               title='编辑章节'
+               title='编辑/添加章节'
                @on-visible-change='handleBeforeClose'
                width="360">
             <Form ref="newData"
@@ -25,21 +25,10 @@
                   :rules="ruleValidate"
                   :label-width="80">
                 <FormItem label="章节名称"
-                          prop="name">
-                    <Input v-model="newData.name"
+                          prop="chapterName">
+                    <Input v-model="newData.chapterName"
                            placeholder="请输入章节名称"></Input>
                 </FormItem>
-                <!-- <FormItem label="链接URL">
-                    <Input v-model="newData.link"
-                           placeholder="请输入链接URL"></Input>
-                </FormItem> -->
-                <!-- <FormItem label="状态">
-                    <Select v-model="newData.status"
-                            style="width:200px">
-                        <Option :value="1">公开</Option>
-                        <Option :value="0">隐藏</Option>
-                    </Select>
-                </FormItem> -->
             </Form>
             <div slot="footer">
                 <Button type="primary"
@@ -54,8 +43,7 @@
     </div>
 </template>
 <script>
-   import { getAllChapters} from '@/libs/api';
-
+   import { getAllChapters, editChaters, delChaters, addChaters} from '@/libs/api';
 
     export default {
         data () {
@@ -66,9 +54,11 @@
                 newData: {
                     // status: 1
                 },
+                courseId: '',
+                teacherId: '',
                 loading: false,
                 ruleValidate: {
-                    name: [{ required: true, message: '请填写章节名称', trigger: 'change' }]
+                    chapterName: [{ required: true, message: '请填写章节名称', trigger: 'change' }]
                 },
                 columns: [
                 {
@@ -130,41 +120,10 @@
         },
          methods: {
         getList() {
-            getAllChapters(1).then(res => {
-                console.log(res.data.data)
-                res.data.data = {
-                    chapters: [
-                        {
-                        chapterId: "1",
-                        chapterName: "qqwe",
-                        courseId: "1"
-                        },
-                        {
-                        chapterId: "6",
-                        chapterName: "aaaaaaaaaaaaaaaaa",
-                        courseId: "1"
-                        },
-                        {
-                        chapterId: "7",
-                        chapterName: "第2章",
-                        courseId: "1"
-                        },
-                        {
-                        chapterId: "17",
-                        chapterName: "来看看",
-                        courseId: "1"
-                        }
-                    ],
-                    courseValueObject: {
-                        courseCoverPic: "asd",
-                        courseId: "1",
-                        courseInfo: "123",
-                        courseName: "1",
-                        courseState: "0",
-                        maxNumOfPeople: "100"
-                    }
+            getAllChapters(this.courseId).then(res => {
+                if (res.data.data) {
+                   this.tableData = res.data.data.chapters;
                 }
-                this.tableData = res.data.data.chapters;
             });
         },
         createNew() {
@@ -179,17 +138,18 @@
         },
         handleSubmit() {
             this.$refs.newData.validate(valid => {
-                console.log(valid)
                 if (valid) {
                     this.loading = true;
-                    // this.newData.link = this.newData.link || this.newData.name;
-                    let {_id, name} = this.newData
-                    let params = {_id, name}
+                    let params = {
+                        "chapterName": this.newData.chapterName,
+                        "chapterId": this.newData.chapterId
+                    }
+                    console.log(params,'params')
                     this.isCreate &&
-                        addCategory(params).then(
+                        addChaters(this.teacherId,this.courseId,params).then(
                             res => {
                                 this.handleCancel();
-                                this.$Message.success(res.data.desc);
+                                if (res.data.code == 200) this.$Message.success(res.data.desc);
                                 this.getList();
                             },
                             err => {
@@ -198,11 +158,10 @@
                             }
                         );
                     !this.isCreate &&
-                        editCategory(params).then(
+                        editChaters(this.teacherId,this.courseId,params).then(
                             res => {
-                                console.log(res)
                                 this.handleCancel();
-                                this.$Message.success(res.data.desc);
+                                if (res.data.code == 200) this.$Message.success(res.data.desc);
                                 this.getList();
                             },
                             err => {
@@ -215,7 +174,6 @@
         },
         handleCancel() {
             this.$refs['newData'].resetFields();
-            // this.newData = { status: 1 };
             this.loading = false;
             this.showModal = false;
         },
@@ -224,10 +182,10 @@
                 this.$refs.newData.resetFields();
             }
         },
-        handelCategoryStatus(id) {
-            editCategory({ _id: id}).then(
+        handelCategoryStatus(chapterId) {
+            delChaters(this.teacherId,this.courseId, {chapterId}).then(
                 res => {
-                    this.$Message.success(res.data.desc);
+                    if (res.data.code == 200) this.$Message.success(res.data.desc);
                     this.getList();
                 },
                 err => {
@@ -237,9 +195,12 @@
         }
     },
     created() {
+        this.courseId = this.$route.params.id
+        this.teacherId = JSON.parse(localStorage.userInfo).userId
         this.getList();
     },
-    mounted() {},
+    mounted() {
+    },
     watch: {}
     }
 </script>

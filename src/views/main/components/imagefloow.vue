@@ -22,7 +22,7 @@ export default {
             imageflowData: [
                 {
                 courseCoverPic: "ass",
-                courseId: "1",
+                courseId: "18",
                 courseInfo: "123",
                 courseName: "1",
                 courseState: "0"

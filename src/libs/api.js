@@ -49,3 +49,9 @@ export const uploadUrl = util.ajaxUrl + '/upload';
 
 // 获取课程章节列表
 export const getAllChapters = (courseId) => http('get', `/exercise/common/${courseId}/courseManager/retrieveCourse`);
+// 修改章节
+export const editChaters = (teacherId, courseId, data) => http('post', `/exercise/teacher/${teacherId}/${courseId}/courseManager/updateChapter`, data);
+// 删除章节
+export const delChaters = (teacherId, courseId, data) => http('post', `/exercise/teacher/${teacherId}/${courseId}/courseManager/deleteChapter`, data);
+// 添加章节
+export const addChaters = (teacherId, courseId, data) => http('post', `/exercise/teacher/${teacherId}/${courseId}/courseManager/addChapter`, data);
