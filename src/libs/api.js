@@ -55,3 +55,14 @@ export const editChaters = (teacherId, courseId, data) => http('post', `/exercis
 export const delChaters = (teacherId, courseId, data) => http('post', `/exercise/teacher/${teacherId}/${courseId}/courseManager/deleteChapter`, data);
 // 添加章节
 export const addChaters = (teacherId, courseId, data) => http('post', `/exercise/teacher/${teacherId}/${courseId}/courseManager/addChapter`, data);
+
+// 人员管理
+// 查询上课的所有学生 （教师/助教）
+export const getallStudents = ( courseId) => http('get', `/exercise/common/${courseId}/allStudents`);
+
+
+// 创建课程
+export const addCourse = (teacherId, data) => http('post', `/exercise/teacher/${teacherId}/courseManager/addCourse`, data);
+// 获取课程列表
+export const getAllCourse = (teacherId) => http('get', `/exercise/teacher/${teacherId}/retrieveCourses`);
+

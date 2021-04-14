@@ -7,7 +7,7 @@
             <Dropdown transfer
                       @on-click="handleTagsOption">
                 <Button type="primary">
-                    <Icon type="ios-close"></Icon>
+                    <!-- <Icon type="ios-close"></Icon> -->
                     <Icon type="md-backspace" />
                     标签
                 </Button>
