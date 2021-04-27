@@ -65,4 +65,5 @@ export const getallStudents = ( courseId) => http('get', `/exercise/common/${cou
 export const addCourse = (teacherId, data) => http('post', `/exercise/teacher/${teacherId}/courseManager/addCourse`, data);
 // 获取课程列表
 export const getAllCourse = (teacherId) => http('get', `/exercise/teacher/${teacherId}/retrieveCourses`);
-
+// 上传课程图片url
+// export const uploadUrl = util.ajaxUrl + '/upload';

@@ -22,11 +22,23 @@
                     <Input v-model="newData.courseInfo" placeholder="请输入课程描述"></Input>
                 </FormItem>
             </Form>
+
+            <Upload
+                multiple
+                type="select"
+                action=""
+                >
+                <div style="padding: 20px 0">
+                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                    <p>Click or drag files here to upload</p>
+                </div>
+            </Upload>
+
             <div slot="footer">
                 <Button type="primary"
                         :loading="loading"
                         @click="handleSubmit">确认</Button>
-                <Button type="ghost"
+                <Button type="dashed"
                         @click="handleCancel">取消</Button>
             </div>
         </Modal>
