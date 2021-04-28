@@ -8,17 +8,35 @@
            <div v-if="courseTagIndex==0"> 
               <div> 课程名 {{courseTagIndex}}</div>
            </div>
+
+           <div v-if="courseTagIndex==1"> 
+               <chapter-manage :courseId="courseId"> 
+              </chapter-manage>
+           </div>
+
+           <div v-if="courseTagIndex==2"> 
+              <person-manage :courseId="courseId"> 
+              </person-manage>
+           </div>
        </div>
         
     </div>
 </template>
 
 <script>
+import personManage from './person-manage.vue';
+import chapterManage from './chapter-manage.vue';
+    
 export default {
+    components: {
+       personManage,
+       chapterManage
+    },
     data() {
         return {
             courseTag:['课程描述', '题目管理', '人员管理', '资源管理', '作业管理', '数据统计'],
-            courseTagIndex: 0
+            courseTagIndex: 0,
+            courseId: ''
         }
     },
     methods: {
@@ -32,6 +50,9 @@ export default {
                 }
             }
         }  
+    },
+    mounted() {
+        this.courseId = this.$route.params.id
     }
 }
 </script>

@@ -67,3 +67,7 @@ export const addCourse = (teacherId, data) => http('post', `/exercise/teacher/${
 export const getAllCourse = (teacherId) => http('get', `/exercise/teacher/${teacherId}/retrieveCourses`);
 // 上传课程图片url
 // export const uploadUrl = util.ajaxUrl + '/upload';
+
+
+// 查询上课的所有学生（教师/助教）
+export const getAllStudents = (courseId) => http('get', `/exercise/common/${courseId}/allStudents`);

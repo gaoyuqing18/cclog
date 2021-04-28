@@ -1,52 +1,12 @@
 <template>
-    <div class="demo-split">
-        <Split v-model="split1">
-            <div slot="left" class="demo-split-pane">
+    <div class="demo-split-pane">
                 <div class="left-class-name">课程名</div>
                 <div class="left-class-desc">课程描述</div>
                 <img src="/static/course2.png" />
-            </div>
-            <div slot="right" class="demo-split-pane">
-                <div style="width:100%;overflow:hidden;">
-                    <Button @click="createNew"
-                            style="float:right;margin-bottom:10px;"
-                            icon="ios-plus-outline"
-                            type="primary">添加章节</Button>
-                </div>
-                <Table stripe
-                    :columns="columns"
-                    :data="tableData"
-                    >
-                </Table>
-                <Modal v-model="showModal"
-                    title='编辑/添加章节'
-                    @on-visible-change='handleBeforeClose'
-                    width="360">
-                    <Form ref="newData"
-                        :model="newData"
-                        :rules="ruleValidate"
-                        :label-width="80">
-                        <FormItem label="章节名称"
-                                prop="chapterName">
-                            <Input v-model="newData.chapterName"
-                                placeholder="请输入章节名称"></Input>
-                        </FormItem>
-                    </Form>
-                    <div slot="footer">
-                        <Button type="primary"
-                                :loading="loading"
-                                @click="handleSubmit">确认</Button>
-                        <Button type="dashed"
-                                @click="handleCancel">取消</Button>
-                    </div>
-                </Modal>
-            </div>
-        </Split>
     </div>
 </template>
 <script>
-   import { getAllChapters, editChaters, delChaters, addChaters} from '@/libs/api';
-
+ 
     export default {
         data () {
             return {
@@ -191,7 +151,7 @@
                     this.getList();
                 },
                 err => {
-                    this.$Message.error(err.message);
+                    this.$Message.error(err.data.desc);
                 }
             );
         }
