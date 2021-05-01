@@ -71,3 +71,13 @@ export const getAllCourse = (teacherId) => http('get', `/exercise/teacher/${teac
 
 // 查询上课的所有学生（教师/助教）
 export const getAllStudents = (courseId) => http('get', `/exercise/common/${courseId}/allStudents`);
+
+
+// 查询章节下所有题目
+export const getQuestionByChapter = (courseId, chapterId) => http('get', `/exercise/common/${courseId}/getQuestionByChapter/${chapterId}`);
+// 添加题目
+export const addQuestion = (userId, courseId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/addQuestion`)
+// 修改题目
+export const updateQuestion = (userId, courseId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/updateQuestion`)
+// 删除题目
+export const deleteQuestion = (userId, courseId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/deleteQuestion`)

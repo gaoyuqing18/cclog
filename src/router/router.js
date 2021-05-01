@@ -89,6 +89,7 @@ export const otherRouter = {
         {
         path: 'courses/retrieveCourses/:courseId/:chapterId/questionManage',
         name: 'question-manage',
+        title: '题目管理',
         component: () => import('@/views/courses-manage/retrieveCourses/question-manage.vue')
         }
     ]
