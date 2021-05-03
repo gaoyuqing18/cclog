@@ -10,13 +10,11 @@
            </div>
 
            <div v-if="courseTagIndex==1"> 
-               <chapter-manage :courseId="courseId"> 
-              </chapter-manage>
+               <chapter-manage> </chapter-manage>
            </div>
 
            <div v-if="courseTagIndex==2"> 
-              <person-manage :courseId="courseId"> 
-              </person-manage>
+              <person-manage> </person-manage>
            </div>
        </div>
         
@@ -34,8 +32,8 @@ export default {
     },
     data() {
         return {
-            courseTag:['课程描述', '题目管理', '人员管理', '资源管理', '作业管理', '数据统计'],
-            courseTagIndex: 0,
+            courseTag:['课程描述', '题目管理', '人员管理', '数据统计'],
+            courseTagIndex: 1,
             courseId: ''
         }
     },
@@ -53,13 +51,14 @@ export default {
     },
     mounted() {
         this.courseId = this.$route.params.id
+        this.changeManage(1)
     }
 }
 </script>
 
 <style lang="less" scoped>
 .manage-left{
-    width: 300px;
+    width: 200px;
     height: 500px;
     padding: 40px;
     display: inline-block;
@@ -82,6 +81,6 @@ export default {
 .manage-right {
     position: absolute;
     top: 0;
-    left: 350px;
+    left: 250px;
 }
 </style>

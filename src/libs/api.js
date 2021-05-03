@@ -76,8 +76,19 @@ export const getAllStudents = (courseId) => http('get', `/exercise/common/${cour
 // 查询章节下所有题目
 export const getQuestionByChapter = (courseId, chapterId) => http('get', `/exercise/common/${courseId}/getQuestionByChapter/${chapterId}`);
 // 添加题目
-export const addQuestion = (userId, courseId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/addQuestion`)
+export const addQuestion = (userId, courseId, data) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/addQuestion`, data)
 // 修改题目
-export const updateQuestion = (userId, courseId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/updateQuestion`)
+export const updateQuestion = (userId, courseId, data) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/updateQuestion`, data)
 // 删除题目
-export const deleteQuestion = (userId, courseId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/deleteQuestion`)
+export const deleteQuestion = (userId, courseId, data) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/deleteQuestion`, data)
+
+// 查询某一题目详情
+export const getQuestion = (courseId, questionId) => http('get', `/exercise/common/${courseId}/getQuestion/${questionId}`)
+
+// 学生提交题目
+export const submitQuestion = (studentId, courseId, data) => http('post', `/exercise/student/${studentId}/${courseId}/submitQuestion`, data)
+// 收藏某一题目
+export const addCollection = (studentId, courseId, data) => http('post', `/exercise/student/${studentId}/${courseId}/addCollection`, data)
+// 对题目有疑惑
+export const doubleTimesIncr = (studentId, courseId, questionId) => http('post', `/exercise/student/${studentId}/${courseId}/doubleTimesIncr/${questionId}
+`)

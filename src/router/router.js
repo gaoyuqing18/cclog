@@ -91,7 +91,13 @@ export const otherRouter = {
         name: 'question-manage',
         title: '题目管理',
         component: () => import('@/views/courses-manage/retrieveCourses/question-manage.vue')
-        }
+        },
+        {
+            path: 'courses/retrieveCourses/:courseId/:chapterId/questionManage/:questionId',
+            name: 'question-detail',
+            title: '题目详情',
+            component: () => import('@/views/courses-manage/retrieveCourses/question-detail.vue')
+            }
     ]
 }
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里

@@ -43,12 +43,6 @@
       import { getAllChapters, editChaters, delChaters, addChaters} from '@/libs/api';
 
 export default {
-    props: {
-        courseId: {
-            type: String,
-            default: ''
-        }
-    },
     data() {
          return {
                 split1: 0.3,
@@ -57,6 +51,7 @@ export default {
                 newData: {
                     // status: 1
                 },
+                courseId: '',
                 teacherId: '',
                 loading: false,
                 ruleValidate: {
@@ -67,12 +62,12 @@ export default {
                     title: '章节名称',
                     align: 'center',
                     key: 'chapterName',
-                    width: 250
+                    width: 300
                 },
                 {
                     title: '题目',
                     align: 'center',
-                    width: 250,
+                    width: 300,
                     render: (h, params) => {
                         const courseId = params.row['courseId'] || '-'
                         const chapterId = params.row['chapterId'] || '-'
@@ -92,7 +87,7 @@ export default {
                     title: '操作',
                     align: 'center',
                     key: 'address',
-                    width: 250,
+                    width: 300,
                     render: (h, params) => {
                         return h('div', [
                             h(
@@ -213,6 +208,7 @@ export default {
     },
     created() {
         this.teacherId = JSON.parse(localStorage.userInfo).userId
+        this.courseId = this.$route.params.id
         this.getList();
     },
 }

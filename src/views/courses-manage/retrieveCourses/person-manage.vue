@@ -14,33 +14,28 @@
    import { getAllStudents} from '@/libs/api';
 
 export default {
-    props: {
-        courseId: {
-            type: String,
-            default: ''
-        }
-    },
     data() {
         return {
+            courseId: '',
             tableData: [],
             columns: [
                 {
                     title: 'id',
                     align: 'center',
                     key: 'id',
-                    width: 250
+                    width: 300
                 },
                 {
                     title: '姓名',
                     align: 'center',
                     key: 'studentId',
-                    width: 250
+                    width: 300
                 },
                 {
                     title: '操作',
                     align: 'center',
                     key: 'address',
-                    width: 250,
+                    width: 300,
                     render: (h, params) => {
                         return h('div', [
                             h(
@@ -75,6 +70,7 @@ export default {
         
     },
     mounted() {
+        this.courseId = this.$route.params.id
         this.getList()
         
     }

@@ -1,84 +1,286 @@
 <template>
-  <div>
-    <div class="subject-con" style="background:inherit">
-      <div class="sub-content sub-conanswer">
-        <i class="subjec-daan subjec-wrong" style="display: inline;"></i>
-        <div class="sub-dotitle">
-          <em>1</em>
-          <i>[单选题]</i>
-          单选题在空间直角坐标系下，直线
-          <img
-            src="https://img3.233.com/2021-03/15/161579618343631.png"
-            alt
-          />与平面3x- 2y-z+15=0的位置关系是()
-        </div>
-
-            <RadioGroup vertical class="sub-answer">
-                <Radio label="A">
-                    <i>A.</i>
-                    <span>Apple</span>
-                </Radio>
-                <Radio label="B">
-                   <i>B.</i>
-                    <span>Android</span>
-                </Radio>
-                <Radio label="C">
-                    <i>c.</i>
-                    <span>Windows</span>
-                </Radio>
-            </RadioGroup>
-        
-        <div class="refer-answer refer-sc">
-            <div class="reck"> 
-                正确答案：<em class="right">C</em> 
-                我的答案：<em class="wrong">D</em>
+   <div>
+       <div class="demo-split-pane">
+                <div style="width:100%;overflow:hidden;">
+                    <Button @click="createNew"
+                            style="float:right;margin-bottom:10px;"
+                            icon="ios-plus-outline"
+                            type="primary">添加题目
+                    </Button>
+                </div>
+                <Table stripe
+                    :columns="columns"
+                    :data="tableData"
+                    :height="500">
+                    >
+                </Table>
+                <Modal v-model="showModal"
+                    title='编辑/添加题目'
+                    @on-visible-change='handleBeforeClose'
+                    width="500">
+                    <Form ref="newData"
+                        :model="newData"
+                        :rules="ruleValidate"
+                        :label-width="100">
+                        <FormItem label="题干描述"
+                                prop="describe">
+                            <Input v-model="newData.describe"
+                                placeholder="请输入题干描述"></Input>
+                        </FormItem>
+                        <FormItem label="答案"
+                                prop="answer">
+                            <Input v-model="newData.answer"
+                                placeholder="请输入答案"></Input>
+                        </FormItem>
+                        <FormItem label="解析"
+                                prop="parse">
+                            <Input v-model="newData.parse"
+                                placeholder="请输入解析"></Input>
+                        </FormItem>
+                        <FormItem label="题目类型" prop="type">
+                            <Select v-model="newData.type" style="width:200px">
+                                <Option value="SingleSelection">单选题</Option>
+                                <Option value="MultipleSelection">多选题</Option>
+                                <Option value="Judgment">判断题</Option>
+                                <Option value="Completion">填空题</Option>
+                                <Option value="ShortAnswer">简答题</Option>
+                            </Select>
+                        </FormItem>
+                        <FormItem label="难度系数"
+                                prop="difficulty">
+                            <Select v-model="newData.difficulty" style="width:200px">
+                                <Option value="1">1</Option>
+                                <Option value="2">2</Option>
+                                <Option value="3">3</Option>
+                                <Option value="4">4</Option>
+                                <Option value="5">5</Option>
+                            </Select>
+                        </FormItem>
+                    </Form>
+                    <div slot="footer">
+                        <Button type="primary"
+                                :loading="loading"
+                                @click="handleSubmit">确认</Button>
+                        <Button type="dashed"
+                                @click="handleCancel">取消</Button>
+                    </div>
+                </Modal>
             </div>
-            <ul class="refer-right">
-                <li class="collect">
-                    <Icon type="md-star-outline" size='24' color="#ed491f" /> 取消收藏
-                    <Icon type="md-star-outline" size='24'  />收藏
-                </li>
-            </ul>
-            <div class="answer-desc"> 
-                <span> 答案解析:</span>
-                <div> 答案解析</div>
-            </div>
-
-            <div class="ask-btn-new"> 
-                <Icon type="md-help" size='28' />
-                <!-- <Icon type="md-paper" size='30'  /> -->
-                <div>有疑问</div>
-            </div>
-        </div>
-      </div>
     </div>
-
-    <div class="subbottom">
-        <ul class="bor">
-            <li class="btn__prev pre"><a href="javascript:;"><Icon type="md-arrow-back" />上一题</a></li>
-            <li class="btn__analyse ckdan ckzt"><a href="javascript:;"><Icon type="md-book" />查看答案</a></li>
-            <li class="btn__next next"><a href="javascript:;">下一题 <Icon type="md-arrow-forward" /></a></li>
-        </ul>
-    </div>
-  </div>
 </template>
 
 <script>
+
+import { getQuestionByChapter, addQuestion, updateQuestion, deleteQuestion} from '@/libs/api';
+
 export default {
-  props: {
-    courseId: {
-      type: String,
-      default: ""
-    }
-  },
   data() {
-    return {};
+    return {
+        courseId: '',
+        chapterId:'',
+        userId: '',
+        tableData: [],
+        showModal: false,
+        newData: {
+            // status: 1
+        },
+        trans: {
+            SingleSelection: '单选题',
+            MultipleSelection: '多选题',
+            Judgment: '判断题',
+            Completion: '填空题',
+            ShortAnswer: '简答题'
+        },
+        teacherId: '',
+        loading: false,
+        ruleValidate: {
+                    describe: [{ required: true, message: '请填写题干描述', trigger: 'change' }],
+                    difficulty: [{ required: true, message: '请填写难度系数', trigger: 'change' }],
+                    type: [{ required: true, message: '请填写题目类型', trigger: 'change' }],
+                    answer: [{ required: true, message: '请填写答案', trigger: 'change' }],
+                    parse: [{ required: true, message: '请填写解析', trigger: 'change' }]
+                },
+                columns: [
+                {
+                    title: '题干描述',
+                    align: 'center',
+                    key: 'describe',
+                    width: 410,
+                    render: (h, params) => {
+                        const courseId = this.courseId || '-'
+                        const chapterId = this.chapterId || '-'
+                        const questionId = params.row.question['tqNo'] || '-'
+                        return h('router-link', {
+                        props: {
+                            to: {
+                            name: 'question-detail',
+                            params: { courseId, chapterId, questionId}
+                            }
+                        }
+                        }, [
+                          h('span', params.row.question.describe)
+                        ])
+                    }
+                },
+                {
+                    title: '题目编号',
+                    align: 'center',
+                    key: 'tqNo',
+                    sortable: true,
+                    width: 200,
+                    render: (h, params) => {
+                        return h('span', params.row.question.tqNo)
+                    }
+                },
+                {
+                    title: '难度系数',
+                    align: 'center',
+                    key: 'difficulty',
+                    sortable: true,
+                    width: 200,
+                    render: (h, params) => {
+                        return h('span', params.row.question.difficulty)
+                    }
+                },
+                {
+                    title: '题目类型',
+                    align: 'center',
+                    key: 'type',
+                    width: 200,
+                    sortable: true,
+                    render: (h, params) => {
+                        return h('span', this.trans[params.row.question.type])
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    key: 'address',
+                    width: 200,
+                    render: (h, params) => {
+                        return h('div', [
+                            h(
+                                'Button',
+                                {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.editorRow(params.row);
+                                        }
+                                    }
+                                },
+                                '编辑'
+                            ),
+                            h(
+                                'Button',
+                                {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            console.log(params.row)
+                                            this.handelCategoryStatus(params.row.questionValueObject);
+                                        }
+                                    }
+                                },
+                                '删除'
+                            )
+                        ]);
+                    }
+                }
+            ]
+    };
   },
-  methods: {},
-  created() {
-    //     this.teacherId = JSON.parse(localStorage.userInfo).userId
-    //     this.getList();
-  }
+  methods: {
+        getList() {
+            getQuestionByChapter(this.courseId, this.chapterId).then(res => {
+                if (res.data.data) {
+                   this.tableData = res.data.data;
+                }
+            });
+        },
+        createNew() {
+            this.showModal = true;
+            this.isCreate = true;
+            this.newData = {};
+        },
+        editorRow(row) {
+            this.showModal = true;
+            this.newData = { ...row.question, ...row.questionValueObject };
+            this.isCreate = false;
+        },
+        handleSubmit() {
+            this.$refs.newData.validate(valid => {
+                if (valid) {
+                    this.loading = true;
+                    this.newData.chapterId = this.chapterId
+                    if (this.newData.parsing) delete this.newData.parsing
+                    this.isCreate &&
+                        addQuestion(this.userId,this.courseId,this.newData).then(
+                            res => {
+                                this.handleCancel();
+                                if (res.data.code == 200) this.$Message.success(res.data.desc);
+                                this.getList();
+                            },
+                            err => {
+                                this.handleCancel();
+                                this.$Message.error(err.data.desc);
+                            }
+                        );
+                    !this.isCreate &&
+                        updateQuestion(this.userId,this.courseId,this.newData).then(
+                            res => {
+                                this.handleCancel();
+                                if (res.data.code == 200) this.$Message.success(res.data.desc);
+                                this.getList();
+                            },
+                            err => {
+                                this.handleCancel();
+                                this.$Message.error(err.data.desc);
+                            }
+                        );
+                }
+            });
+        },
+        handleCancel() {
+            this.$refs['newData'].resetFields();
+            this.loading = false;
+            this.showModal = false;
+        },
+        handleBeforeClose(bool) {
+            if (bool) {
+                this.$refs.newData.resetFields();
+            }
+        },
+        handelCategoryStatus(questionValueObject) {
+            let {chapterId, questionId} = questionValueObject
+            deleteQuestion(this.userId,this.courseId, {chapterId, questionId}).then(
+                res => {
+                    if (res.data.code == 200) this.$Message.success(res.data.desc);
+                    this.getList();
+                },
+                err => {
+                    this.$Message.error(err.message);
+                }
+            );
+        }
+        
+    },
+    mounted() {
+        this.userId = JSON.parse(localStorage.userInfo).userId
+        this.courseId = this.$route.params.courseId
+        this.chapterId = this.$route.params.chapterId
+        this.getList()
+        
+    }
 };
 </script>
 
