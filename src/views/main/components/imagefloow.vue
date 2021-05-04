@@ -1,15 +1,14 @@
 <template>
 <div class="listContent"> 
-  <div class="list clearfix show" v-for="item in imageflowData" :key="item.courseId">
+  <div class="list clearfix show" v-for="item in data" :key="item.courseId">
       <img
         class="img"
-        src=""
-        data-src="holder.js/260x152"
+        :src="`http://8.131.85.93:8080/${item.courseCoverPic}`"
       />
 
       <p class="title ellipsis2">{{item.courseName}}</p>
       <a class="course-detail" @click='courseDetail(item)'>查看</a>
-      <a class="course-manage" @click='courseManage(item)'>管理</a>
+      <a class="course-manage" @click='courseManage(item)' v-if="!$route.name.includes('student')">管理</a>
   </div>
 </div>
 </template>
@@ -17,128 +16,37 @@
 import { getAllCategories, getArticle, editArticle, delArticle, updateAllArticle } from '@/libs/api';
 export default {
     name: 'imageflow-list',
+    props: {
+        data: {
+            type: Array,
+            default: []
+        }
+    },
     data() {
         return {
-            imageflowData: [
-                {
-                courseCoverPic: "ass",
-                courseId: "18",
-                courseInfo: "123",
-                courseName: "1",
-                courseState: "0"
-                },
-                {
-                courseCoverPic: "spoc-beijing.oss-cn-beijing.aliyuncs.com/2021-03-24/ef5904ce6cb440028b139f1535e57081-bg3.jpg",
-                courseId: "2",
-                courseInfo: "shasha",
-                courseName: "c",
-                courseState: "0"
-                },
-                {
-                courseCoverPic: "ass",
-                courseId: "3",
-                courseInfo: "123",
-                courseName: "1",
-                courseState: "0"
-                },
-                {
-                courseCoverPic: "spoc-beijing.oss-cn-beijing.aliyuncs.com/2021-03-24/ef5904ce6cb440028b139f1535e57081-bg3.jpg",
-                courseId: "4",
-                courseInfo: "shasha",
-                courseName: "c",
-                courseState: "0"
-                },
-                {
-                courseCoverPic: "ass",
-                courseId: "5",
-                courseInfo: "123",
-                courseName: "1",
-                courseState: "0"
-                },
-                {
-                courseCoverPic: "spoc-beijing.oss-cn-beijing.aliyuncs.com/2021-03-24/ef5904ce6cb440028b139f1535e57081-bg3.jpg",
-                courseId: "6",
-                courseInfo: "shasha",
-                courseName: "c",
-                courseState: "0"
-                }
-            ]
         }
     },
     created() {
-        // this.getList();
-        // this.getAllCategories();
+        
     },
     mounted() {
-        // window.onresize = () => {
-        //     this.tableHeight = window.innerHeight - 210;
-        // };
+       
     },
     methods: {
         courseDetail(item) {
-            this.$router.push({ name: 'course_detail', params: {id: item.courseId}});
+            if (this.$route.name.includes('student')) {
+                this.$router.push({ name: 'course_detail_student', params: {id: item.courseId}});
+            } else {
+                this.$router.push({ name: 'course_detail', params: {id: item.courseId}});
+            }
         },
         courseManage(item) {
-            this.$router.push({ name: 'course_manage', params: {id: item.courseId}});
-
+            if (this.$route.name.includes('assistant')) {
+                this.$router.push({ name: 'course_manage_assistant', params: {id: item.courseId}});
+            } else{
+                this.$router.push({ name: 'course_manage_teacher', params: {id: item.courseId}});
+            }
         }
-        // getList() {
-        //     const params = { ...this.searchParams, page: this.page, pageSize: this.pageSize };
-        //     !params.category && delete params.category;
-        //     getArticle(params).then(
-        //         res => {
-        //             this.tableData = res.data.data;
-        //             this.total = res.data.count;
-        //         },
-        //         err => {
-        //             this.tableData = [];
-        //             this.total = 0;
-        //             this.$Message.error(res.data.desc);
-        //         }
-        //     );
-        // },
-        // getAllCategories() {
-        //     getAllCategories().then(res => {
-        //         this.categoryOptions = res.data.map(val => {
-        //             return { label: val.name, value: val._id };
-        //         });
-        //     });
-        // },
-        // submitSearch() {
-        //     this.page = 1;
-        //     this.getList();
-        // },
-        // clearSearch() {
-        //     this.searchParams = { status: 1 };
-        // },
-        // async updateAll() {
-        //     const res = await updateAllArticle();
-        //     this.$Message.success(res.data.desc);
-        // },
-        // toEditor(data) {
-        //     this.$router.push({ path: `article-publish?_id=${data._id}` });
-        // },
-        // handelArticleStatus(id, status) {
-        //     if (this.canDel && status === 0) {
-        //         delArticle({ _id: id }).then(res => {
-        //             this.$Message.success('文章删除成功！');
-        //             this.getList();
-        //         });
-        //     } else {
-        //         editArticle({ _id: id, status: status }).then(res => {
-        //             if (res.data.code !== 0) {
-        //                 this.$Message.error(res.data.desc);
-        //                 return;
-        //             }
-        //             status === 0 && this.$Message.success('文章隐藏成功！');
-        //             status === 1 && this.$Message.success('文章恢复成功！');
-        //             this.getList();
-        //         });
-        //     }
-        // },
-        // pageChange(page) {
-        //     this.getList();
-        // }
     }
 };
 </script>

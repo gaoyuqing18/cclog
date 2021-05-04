@@ -78,25 +78,49 @@ export const otherRouter = {
             path: 'courses/retrieveCourses/:id',
             name: 'course_detail',
             title: '课程详情',
-            component: () => import('@/views/courses-manage/retrieveCourses/course-detail.vue')
+            component: () => import('@/views/courses-manage-teacher/retrieveCourses/course-detail.vue')
         },
         {
-            path: 'courses/retrieveCourses/:id/coursManage',
-            name: 'course_manage',
-            title: '课程管理',
-            component: () => import('@/views/courses-manage/retrieveCourses/course-manage.vue')
+            path: 'courses/student/retrieveCourses/:id',
+            name: 'course_detail_student',
+            title: '课程详情(学生)',
+            component: () => import('@/views/courses-manage-student/retrieveCourses/course-detail.vue')
         },
         {
-        path: 'courses/retrieveCourses/:courseId/:chapterId/questionManage',
-        name: 'question-manage',
-        title: '题目管理',
-        component: () => import('@/views/courses-manage/retrieveCourses/question-manage.vue')
+            path: 'courses/teacher/retrieveCourses/:id/coursManage',
+            name: 'course_manage_teacher',
+            title: '我讲的课',
+            component: () => import('@/views/courses-manage-teacher/retrieveCourses/course-manage.vue')
         },
+        {
+            path: 'courses/assistant/retrieveCourses/:id/coursManage',
+            name: 'course_manage_assistant',
+            title: '我辅助管理的课',
+            component: () => import('@/views/courses-manage-assistant/retrieveCourses/course-manage.vue')
+        },
+        {
+            path: 'courses/student/retrieveCourses/:id/coursManage',
+            name: 'course_manage_student',
+            title: '我上的课',
+            component: () => import('@/views/courses-manage-student/retrieveCourses/course-manage.vue')
+        },
+        {
+        path: 'courses/student/retrieveCourses/:courseId/:chapterId/questionManage',
+        name: 'question-manage-student',
+        title: '去做题',
+        component: () => import('@/views/courses-manage-student/retrieveCourses/question-manage.vue')
+        },
+        {
+            path: 'courses/retrieveCourses/:courseId/:chapterId/questionManage',
+            name: 'question-manage',
+            title: '题目管理',
+            component: () => import('@/views/courses-manage-teacher/retrieveCourses/question-manage.vue')
+            },
         {
             path: 'courses/retrieveCourses/:courseId/:chapterId/questionManage/:questionId',
             name: 'question-detail',
             title: '题目详情',
-            component: () => import('@/views/courses-manage/retrieveCourses/question-detail.vue')
+            component: () => import('@/views/courses-manage-student/retrieveCourses/question-detail.vue')
             }
     ]
 }
@@ -134,63 +158,93 @@ export const appRouter = [
             }
         ]
     },
+    // {
+    //     path: '/blog',
+    //     icon: 'social-buffer',
+    //     name: 'component',
+    //     title: '博文管理',
+    //     component: Main,
+    //     children: [
+    //         {
+    //             path: 'category-list',
+    //             icon: 'ios-pricetags-outline',
+    //             name: 'category-list',
+    //             title: '分类列表',
+    //             component: () => import('@/views/blog/category-list/category-list.vue')
+    //         },
+    //         {
+    //             path: 'article-publish',
+    //             icon: 'compose',
+    //             name: 'article-publish',
+    //             title: '文章发布',
+    //             component: () => import('@/views/blog/article-publish/article-publish.vue')
+    //         },
+    //         {
+    //             path: 'article-list',
+    //             icon: 'ios-list-outline',
+    //             name: 'article-list',
+    //             title: '文章列表',
+    //             component: () => import('@/views/blog/article-list/article-list.vue')
+    //         }
+    //     ]
+    // },
+    // {
+    //     path: '/image',
+    //     icon: 'android-upload',
+    //     name: 'image',
+    //     title: '图片管理',
+    //     component: Main,
+    //     children: [
+    //         {
+    //             path: 'upload',
+    //             title: '文件上传',
+    //             name: 'upload',
+    //             component: () => import('@/views/image-manage/upload/upload.vue')
+    //         }
+    //     ]
+    // },
     {
-        path: '/blog',
-        icon: 'social-buffer',
-        name: 'component',
-        title: '博文管理',
+        path: '/courses/teacher',
+        icon: 'android-upload',
+        name: 'courses-teacher',
+        title: '我讲的课(老师)',
         component: Main,
         children: [
             {
-                path: 'category-list',
-                icon: 'ios-pricetags-outline',
-                name: 'category-list',
-                title: '分类列表',
-                component: () => import('@/views/blog/category-list/category-list.vue')
-            },
-            {
-                path: 'article-publish',
-                icon: 'compose',
-                name: 'article-publish',
-                title: '文章发布',
-                component: () => import('@/views/blog/article-publish/article-publish.vue')
-            },
-            {
-                path: 'article-list',
-                icon: 'ios-list-outline',
-                name: 'article-list',
-                title: '文章列表',
-                component: () => import('@/views/blog/article-list/article-list.vue')
+                path: 'retrieveCourses-teacher',
+                title: '我讲的课(老师)',
+                name: 'retrieveCourses-teacher',
+                component: () => import('@/views/courses-manage-teacher/retrieveCourses/retrieveCourses.vue')
             }
         ]
     },
     {
-        path: '/image',
+        path: '/courses/student',
         icon: 'android-upload',
-        name: 'image',
-        title: '图片管理',
+        name: 'courses-student',
+        title: '我上的课(学生)',
         component: Main,
         children: [
             {
-                path: 'upload',
-                title: '文件上传',
-                name: 'upload',
-                component: () => import('@/views/image-manage/upload/upload.vue')
+                path: 'retrieveCourses-student',
+                title: '我上的课(学生)',
+                name: 'retrieveCourses-student',
+                component: () => import('@/views/courses-manage-student/retrieveCourses/retrieveCourses.vue')
             }
         ]
     },
     {
-        path: '/courses',
+        path: '/courses/assistant',
         icon: 'android-upload',
-        name: 'courses',
-        title: '课程管理',
+        name: 'courses-assistant',
+        title: '我辅助管理的课(助教)',
         component: Main,
         children: [
             {
-                path: 'retrieveCourses',
-                title: '课程管理',
-                name: 'retrieveCourses',
-                component: () => import('@/views/courses-manage/retrieveCourses/retrieveCourses.vue')
+                path: 'retrieveCourses-assistant',
+                title: '我辅助管理的课(助教)',
+                name: 'retrieveCourses-assistant',
+                component: () => import('@/views/courses-manage-assistant/retrieveCourses/retrieveCourses.vue')
             }
         ]
     }

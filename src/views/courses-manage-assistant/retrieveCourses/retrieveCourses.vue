@@ -10,7 +10,9 @@
         <Modal v-model="showModal"
                title='创建课程'
                @on-visible-change='handleBeforeClose'
-               width="360">
+               width="500"
+               footer-hide>
+            <Alert style="margin: 20px 0">请先填写：课程名称、课程描述后上传图片</Alert>
             <Form ref="newData"
                   :model="newData"
                   :rules="ruleValidate"
@@ -22,28 +24,30 @@
                     <Input v-model="newData.courseInfo" placeholder="请输入课程描述"></Input>
                 </FormItem>
             </Form>
-
+            
             <Upload
                 multiple
-                type="select"
-                action=""
+                type="drag"
+                :action="uploadUrl"
+                :data="newData"
+                :before-upload="getCourseUrl"
                 >
                 <div style="padding: 20px 0">
                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                     <p>Click or drag files here to upload</p>
                 </div>
             </Upload>
-
-            <div slot="footer">
+            <div v-if="file !== null">Upload file: {{ file.name }} </div>
+            <!-- <div slot="footer">
                 <Button type="primary"
                         :loading="loading"
                         @click="handleSubmit">确认</Button>
                 <Button type="dashed"
                         @click="handleCancel">取消</Button>
-            </div>
+            </div> -->
         </Modal>
     </div>
-    <image-floow data="tableData"> 
+    <image-floow :data="tableData"> 
     </image-floow>
 
   </div>
@@ -59,12 +63,14 @@ export default {
     },
     data() {
         return {
+            file: null,
             tableData: [],
             showModal: false,
             teacherId: '',
             newData: {
                 status: 1
             },
+            uploadUrl: '',
             loading: false,
             ruleValidate: {
                 courseName: [{ required: true, message: '请填写课程名称', trigger: 'change' }],
@@ -73,9 +79,17 @@ export default {
         };
     },
     methods: {
+        getCourseUrl(file) {
+            this.file = file
+            console.log(file.name)
+            // return false
+        },
+        uploadImg(satus) {
+            console.log(status, 'status')
+        },
         getList() {
             getAllCourse(this.teacherId).then(res => {
-                this.tableData = res.data;
+                this.tableData = res.data.data;
             });
         },
         createNew() {
@@ -88,40 +102,21 @@ export default {
             this.newData = { ...row };
             this.isCreate = false;
         },
-        handleSubmit() {
-            this.$refs.newData.validate(valid => {
-                if (valid) {
-                    // this.loading = true;
-                    // let {_id, name, link ,status} = this.newData
-                    // let params = {_id, name, link ,status}
-                    this.isCreate &&
-                        addCourse(params).then(
-                            res => {
-                                this.handleCancel();
-                                this.$Message.success(res.data.desc);
-                                this.getList();
-                            },
-                            err => {
-                                this.handleCancel();
-                                this.$Message.error(err.data.desc);
-                            }
-                        );
-                    !this.isCreate &&
-                        editCategory(params).then(
-                            res => {
-                                console.log(res)
-                                this.handleCancel();
-                                this.$Message.success(res.data.desc);
-                                this.getList();
-                            },
-                            err => {
-                                this.handleCancel();
-                                this.$Message.error(err.data.desc);
-                            }
-                        );
-                }
-            });
-        },
+        // handleSubmit() {
+        //     this.$refs.newData.validate(valid => {
+        //         if (valid) {
+        //             this.loading = true;
+        //             this.loadingStatus = true;
+        //             setTimeout(() => {
+        //                 this.file = null;
+        //                 this.loadingStatus = false;
+        //                 this.$Message.success('创建成功')
+        //                 this.handleCancel();
+        //                 this.getList();
+        //             }, 1500)
+        //         }
+        //     });
+        // },
         handleCancel() {
             this.$refs['newData'].resetFields();
             this.newData = { status: 1 };
@@ -147,6 +142,7 @@ export default {
     },
     created() {
         this.teacherId = JSON.parse(localStorage.userInfo).userId
+        this.uploadUrl = `/cms/exercise/teacher/${this.teacherId}/courseManager/addCourse`
         this.getList();
     },
     mounted() {},
@@ -155,6 +151,11 @@ export default {
 </script>
 
 <style lang="less">
+.ivu-upload{
+    width: 80%;
+    margin-top: 30px;
+    margin-left: 30px;
+}
 </style>
 
 

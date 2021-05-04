@@ -63,10 +63,9 @@ export const getallStudents = ( courseId) => http('get', `/exercise/common/${cou
 
 // 创建课程
 export const addCourse = (teacherId, data) => http('post', `/exercise/teacher/${teacherId}/courseManager/addCourse`, data);
-// 获取课程列表
+// 教师查询自己所教授课程
 export const getAllCourse = (teacherId) => http('get', `/exercise/teacher/${teacherId}/retrieveCourses`);
-// 上传课程图片url
-// export const uploadUrl = util.ajaxUrl + '/upload';
+
 
 
 // 查询上课的所有学生（教师/助教）
