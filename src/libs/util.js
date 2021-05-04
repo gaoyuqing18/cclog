@@ -8,10 +8,10 @@ util.title = function(title) {
     window.document.title = title;
 };
 
-const ajaxUrl = env === 'development' ? 'http://localhost:8088/cms' : 'https://blog.liuzuann.com/cms';
+const ajaxUrl = env === 'development' ? 'http://localhost:8088/cms' : 'http://8.131.85.93:8080';
 
-util.routerModel = env === 'development' ? 'hash':'history';
-
+// util.routerModel = env === 'development' ? 'hash':'history';
+util.routerModel = 'hash'
 util.ajaxUrl = ajaxUrl;
 
 util.ajax = axios.create({

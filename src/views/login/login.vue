@@ -158,15 +158,18 @@ export default {
         handleSubmit() {
             const ref = this.is_login ? 'loginForm' : 'registerForm';
             let params = this.is_login ? this.loginForm : this.registerForm;
+            console.log(ref, params)
             this.$refs[ref].validate(async valid => {
                 if (valid) {
+                    console.log('valid')
                     let newpwd = params.password;
                     const res = this.is_login
                         ? await login({ username: params.username, password: newpwd })
                         : await register({ userName: params.username, userId: params.username, password: newpwd });
                     if (res.data.code && res.data.code == 200) {
+                        console.log('jinru-')
                         const userInfo = res.data.data;
-                        Cookies.set('access', 0);
+                        Cookies.set('access', 1);
                         // if (userInfo.is_manager == 1) {
                         //     Cookies.set('access', 0);
                         // } else {
@@ -175,7 +178,7 @@ export default {
                         localStorage.setItem('userInfo', JSON.stringify(userInfo));
                         Cookies.set('user', params.username);
                         this.$Message.success(res.data.desc);
-                        // await this.setUserInfo();
+                        await this.setUserInfo();
                         this.$router.push('/');
                     } else {
                         this.$Message.warning(res.data.desc);

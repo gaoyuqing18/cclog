@@ -14,13 +14,13 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 });
 
 module.exports = merge(webpackBaseConfig, {
-    externals: {
-        vue: 'Vue',
-        axios: 'axios',
-        iview: 'iview'
-    },
+    // externals: {
+    //     vue: 'Vue',
+    //     axios: 'axios',
+    //     iview: 'iview'
+    // },
     output: {
-        publicPath: '/CMS/',
+        publicPath: '',
         filename: '[name].[chunkhash].js',
         chunkFilename: '[name].[chunkhash].chunk.js'
     },
