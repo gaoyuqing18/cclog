@@ -74,7 +74,7 @@ export default {
                         return h('router-link', {
                         props: {
                             to: {
-                            name: 'question-manage-student',
+                            name: 'question-manage',
                             params: { courseId, chapterId}
                             }
                         }

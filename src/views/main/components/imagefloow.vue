@@ -3,7 +3,7 @@
   <div class="list clearfix show" v-for="item in data" :key="item.courseId">
       <img
         class="img"
-        :src="`http://8.131.85.93:8080/${item.courseCoverPic}`"
+        :src="`http://123.57.32.244/${item.courseCoverPic}`"
       />
 
       <p class="title ellipsis2">{{item.courseName}}</p>

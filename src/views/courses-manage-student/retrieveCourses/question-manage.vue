@@ -69,7 +69,6 @@ export default {
                     align: 'center',
                     key: 'tqNo',
                     sortable: true,
-                    width: 200,
                     render: (h, params) => {
                         return h('span', params.row.question.tqNo)
                     }
@@ -79,7 +78,6 @@ export default {
                     align: 'center',
                     key: 'difficulty',
                     sortable: true,
-                    width: 200,
                     render: (h, params) => {
                         return h('span', params.row.question.difficulty)
                     }
@@ -88,7 +86,6 @@ export default {
                     title: '题目类型',
                     align: 'center',
                     key: 'type',
-                    width: 200,
                     sortable: true,
                     render: (h, params) => {
                         return h('span', this.trans[params.row.question.type])

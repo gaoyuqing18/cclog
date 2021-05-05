@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getAllCourse} from '@/libs/api';
+import { getAllCourseStu} from '@/libs/api';
 import imageFloow from '~cpmponents/imagefloow.vue';
 
 export default {
@@ -17,19 +17,25 @@ export default {
     data() {
         return {
             tableData: [],
-            teacherId: ''
+            studentId: ''
         };
     },
     methods: {
         
         getList() {
-            getAllCourse(this.teacherId).then(res => {
+            getAllCourseStu(this.studentId).then(
+                res => {
                 this.tableData = res.data.data;
-            });
+                },
+                err => {
+                this.$Message.error('暂无权限！！！！！！');
+                }
+            )
         }
     },
     created() {
-        this.teacherId = JSON.parse(localStorage.userInfo).userId
+        this.studentId = JSON.parse(localStorage.userInfo).userId
+        console.log()
         this.getList();
     },
     mounted() {},

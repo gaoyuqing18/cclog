@@ -107,19 +107,7 @@ export default {
                     key: 'describe',
                     width: 410,
                     render: (h, params) => {
-                        const courseId = this.courseId || '-'
-                        const chapterId = this.chapterId || '-'
-                        const questionId = params.row.question['tqNo'] || '-'
-                        return h('router-link', {
-                        props: {
-                            to: {
-                            name: 'question-detail',
-                            params: { courseId, chapterId, questionId}
-                            }
-                        }
-                        }, [
-                          h('span', params.row.question.describe)
-                        ])
+                        return h('span', params.row.question.describe)
                     }
                 },
                 {

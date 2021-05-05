@@ -88,9 +88,14 @@ export default {
             console.log(status, 'status')
         },
         getList() {
-            getAllCourse(this.teacherId).then(res => {
+            getAllCourse(this.teacherId).then(
+                res => {
                 this.tableData = res.data.data;
-            });
+                },
+                err => {
+                this.$Message.error('暂无权限！！！！！！')
+                }
+            )
         },
         createNew() {
             this.showModal = true;

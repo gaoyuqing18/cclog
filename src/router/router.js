@@ -36,7 +36,7 @@ export const page403 = {
         title: '403-权限不足'
     },
     name: 'error-403',
-    component: () => import('@//views/error-page/403.vue')
+    component: () => import('@/views/error-page/403.vue')
 };
 
 export const page500 = {
@@ -97,12 +97,6 @@ export const otherRouter = {
             name: 'course_manage_assistant',
             title: '我辅助管理的课',
             component: () => import('@/views/courses-manage-assistant/retrieveCourses/course-manage.vue')
-        },
-        {
-            path: 'courses/student/retrieveCourses/:id/coursManage',
-            name: 'course_manage_student',
-            title: '我上的课',
-            component: () => import('@/views/courses-manage-student/retrieveCourses/course-manage.vue')
         },
         {
         path: 'courses/student/retrieveCourses/:courseId/:chapterId/questionManage',
