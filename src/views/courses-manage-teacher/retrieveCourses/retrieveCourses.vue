@@ -26,10 +26,11 @@
             </Form>
             
             <Upload
-                multiple
                 type="drag"
                 :action="uploadUrl"
                 :data="newData"
+                :on-success="createSuccess"
+                :on-error="createError"
                 :before-upload="getCourseUrl"
                 >
                 <div style="padding: 20px 0">
@@ -38,13 +39,6 @@
                 </div>
             </Upload>
             <div v-if="file !== null">Upload file: {{ file.name }} </div>
-            <!-- <div slot="footer">
-                <Button type="primary"
-                        :loading="loading"
-                        @click="handleSubmit">确认</Button>
-                <Button type="dashed"
-                        @click="handleCancel">取消</Button>
-            </div> -->
         </Modal>
     </div>
     <image-floow :data="tableData"> 
@@ -81,8 +75,14 @@ export default {
     methods: {
         getCourseUrl(file) {
             this.file = file
-            console.log(file.name)
-            // return false
+            
+        },
+        createSuccess() {
+           this.$Message.success('创建成功！');
+           window.location.reload()
+        },
+        createError() {
+            this.$Message.success('创建失败！');
         },
         uploadImg(satus) {
             console.log(status, 'status')
