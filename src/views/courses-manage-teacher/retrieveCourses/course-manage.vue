@@ -16,6 +16,12 @@
            <div v-if="courseTagIndex==2"> 
               <person-manage> </person-manage>
            </div>
+           <div v-if="courseTagIndex==3"> 
+              <comment-manage> </comment-manage>
+           </div>
+           <div v-if="courseTagIndex==4"> 
+              <recycle-manage> </recycle-manage>
+           </div>
        </div>
         
     </div>
@@ -24,15 +30,19 @@
 <script>
 import personManage from './person-manage.vue';
 import chapterManage from './chapter-manage.vue';
+import recycleManage from './recycle-manage.vue';
+import commentManage from './comment-manage.vue';
     
 export default {
     components: {
        personManage,
-       chapterManage
+       chapterManage,
+       recycleManage,
+       commentManage
     },
     data() {
         return {
-            courseTag:['课程描述', '题目管理', '人员管理', '数据统计'],
+            courseTag:['课程描述', '题目管理', '人员管理', '评论管理', '回收站管理'],
             courseTagIndex: 1,
             courseId: ''
         }

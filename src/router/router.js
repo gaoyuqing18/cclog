@@ -93,6 +93,12 @@ export const otherRouter = {
             component: () => import('@/views/courses-manage-teacher/retrieveCourses/course-manage.vue')
         },
         {
+            path: 'courses/teacher/retrieveCourses/:courseId/coursManage/:commentId/replyManage',
+            name: 'reply_manage',
+            title: '回复管理',
+            component: () => import('@/views/courses-manage-teacher/retrieveCourses/reply-manage.vue')
+        },
+        {
             path: 'courses/assistant/retrieveCourses/:id/coursManage',
             name: 'course_manage_assistant',
             title: '我辅助管理的课',

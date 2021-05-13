@@ -93,3 +93,22 @@ export const addCollection = (studentId, courseId, data) => http('post', `/exerc
 // 对题目有疑惑
 export const doubleTimesIncr = (studentId, courseId, questionId) => http('post', `/exercise/student/${studentId}/${courseId}/doubleTimesIncr/${questionId}
 `)
+
+// 查看回收站（教师/助教）
+export const retrieveRecycleQuestions = (userId, courseId) => http('get', `/exercise/teacherAndAssistant/${userId}/${courseId}/retrieveRecycleQuestions`)
+// 还原题目（教师/助教）
+export const reductionRecycleQuestions = (userId, courseId, data) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/reductionRecycleQuestions`, data)
+// 查询回收站某一题目详细信息
+export const retrieveRecycleQuestionDetail = (userId, courseId, questionId) => http('get', `/exercise/teacherAndAssistant/${userId}/${courseId}/retrieveRecycleQuestionDetail/${questionId}`)
+
+// 查询课程下的所有顶级评论
+export const retrieveAllComment = (courseId) => http('get', `/exercise/common/${courseId}/retrieveAllComment`)
+// 查看某一顶级评论下的所有回复
+export const commentDetail = (courseId, commentId) => http('get', `/exercise/common/${courseId}/commentDetail/${commentId}`)
+// 添加顶级评论
+export const commitComment = (courseId, data) => http('post', `/exercise/common/${courseId}/commitComment`, data)
+// 在顶级评论下回复
+export const replyComment = (courseId, data) => http('post', `/exercise/common/${courseId}/replyComment`, data)
+
+
+
