@@ -126,7 +126,7 @@ export default {
                     align: 'center',
                     key: 'tqNo',
                     sortable: true,
-                    width: 200,
+                    width: 150,
                     render: (h, params) => {
                         return h('span', params.row.question.tqNo)
                     }
@@ -136,7 +136,7 @@ export default {
                     align: 'center',
                     key: 'difficulty',
                     sortable: true,
-                    width: 200,
+                    width: 150,
                     render: (h, params) => {
                         return h('span', params.row.question.difficulty)
                     }

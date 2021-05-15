@@ -13,118 +13,67 @@
 
 <script>
 
-import { retrieveStudentApply, rejectStudent, permitStudent} from '@/libs/api';
-
+import { getStatic } from '@/libs/api'
 export default {
   data() {
     return {
         courseId: '',
+        chapterId:'',
         userId: '',
         tableData: [],
-        showModal: false,
-        newData: {
-            // status: 1
-        },
         teacherId: '',
         loading: false,
         columns: [
             {
-                title: '学生id',
+                title: '题干描述',
                 align: 'center',
-                key: 'userId'
+                key: 'describe',
+                width: 450
             },
             {
-                title: '课程id',
+                title: '题目编号',
                 align: 'center',
-                key: 'courseId'
+                key: 'tqNo',
+                sortable: true
             },
             {
-                title: '课程名',
+                title: '完成次数',
                 align: 'center',
-                key: 'courseName',
-                width: 250
+                key: 'doneTimes'
             },
             {
-                title: '操作',
+                title: '疑惑次数',
                 align: 'center',
-                key: 'address',
-                render: (h, params) => {
-                    return h('div', [
-                        h(
-                            'Button',
-                            {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.handelPermit(params.row);
-                                    }
-                                }
-                            },
-                            '同意'
-                        ),
-                        h(
-                            'Button',
-                            {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.handelReject(params.row);
-                                    }
-                                }
-                            },
-                            '拒绝'
-                        )
-                    ]);
-                }
+                key: 'doubtTimes',
+                sortable: true
+            },
+            {
+                title: '错误次数',
+                align: 'center',
+                key: 'mistakeTimes',
+                sortable: true
             }
         ]
     };
   },
   methods: {
+        pageChange(page) {
+            this.getList();
+        },
         getList() {
-            retrieveStudentApply().then(res => {
+            getStatic(this.userId, this.courseId, {chapterId: this.chapterId}).then(res => {
                 if (res.data.data) {
-                   this.tableData = res.data.data.reply;
+                   this.tableData = res.data.data;
+                } else {
+                   this.total = 0;
                 }
             });
-        },
-        handelReject(data) {
-            rejectStudent(this.userId,this.courseId, data.userId).then(
-                res => {
-                    if (res.data.code == 200) this.$Message.success(res.data.desc);
-                    this.getList();
-                },
-                err => {
-                    this.$Message.error(err.message);
-                }
-            );
-        },
-        handelPermit(data) {
-            permitStudent(this.userId,this.courseId, data.userId).then(
-                res => {
-                    if (res.data.code == 200) this.$Message.success(res.data.desc);
-                    this.getList();
-                },
-                err => {
-                    this.$Message.error(err.message);
-                }
-            );
         }
-        
-        
     },
     mounted() {
         this.userId = JSON.parse(localStorage.userInfo).userId
-        this.courseId = this.$route.params.id
+        this.courseId = this.$route.params.courseId
+        this.chapterId = this.$route.params.chapterId
         this.getList()
         
     }

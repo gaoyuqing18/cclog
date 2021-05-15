@@ -1,12 +1,18 @@
 <template>
   <div>
+       <Button @click="applyForTeacherfn"
+        style="float:right;margin-bottom:10px;"
+        icon="ios-plus-outline"
+        type="primary">申请教师资格
+        </Button>
+
     <image-floow :data="tableData"> 
     </image-floow>
 
   </div>
 </template>
 <script>
-import { retrieveAllCourses} from '@/libs/api';
+import { retrieveAllCourses, applyForTeacher} from '@/libs/api';
 import imageFloow from '~cpmponents/imagefloow.vue';
 
 export default {
@@ -16,7 +22,7 @@ export default {
     data() {
         return {
             tableData: [],
-            studentId: ''
+            userId: ''
         };
     },
     methods: {
@@ -30,12 +36,29 @@ export default {
                 this.$Message.error('暂无权限！！！！！！');
                 }
             )
+        },
+        applyForTeacherfn() {
+            applyForTeacher().then(
+                res => {
+                    if (res.data.code == 200) {
+                        this.$Message.success('申请成功！！！！！！');
+                    } else {
+                        this.$Message.error(res.data.desc);
+                    }
+                },
+                err => {
+                this.$Message.error('申请失败！！！！！！');
+                }
+            )
+
         }
     },
     created() {
         this.getList();
     },
-    mounted() {},
+    mounted() {
+        this.userId = JSON.parse(localStorage.userInfo).userId
+    },
     watch: {}
 };
 </script>

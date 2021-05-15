@@ -4,7 +4,7 @@
                 <Table stripe
                     :columns="columns"
                     :data="tableData"
-                    :height="500">
+                    :height="550">
                     >
                 </Table>
             </div>
@@ -13,7 +13,7 @@
 
 <script>
 
-import { retrieveStudentApply, rejectStudent, permitStudent} from '@/libs/api';
+import { retrieveTeacherApply, rejectTeacher, permitTeacher} from '@/libs/api';
 
 export default {
   data() {
@@ -66,7 +66,7 @@ export default {
                                     }
                                 }
                             },
-                            '同意'
+                            '同意授权'
                         ),
                         h(
                             'Button',
@@ -81,7 +81,7 @@ export default {
                                     }
                                 }
                             },
-                            '拒绝'
+                            '拒绝授权'
                         )
                     ]);
                 }
@@ -91,14 +91,14 @@ export default {
   },
   methods: {
         getList() {
-            retrieveStudentApply().then(res => {
+            retrieveTeacherApply().then(res => {
                 if (res.data.data) {
-                   this.tableData = res.data.data.reply;
+                   this.tableData = res.data.data;
                 }
             });
         },
         handelReject(data) {
-            rejectStudent(this.userId,this.courseId, data.userId).then(
+            permitTeacher(this.userId,this.courseId, data.userId).then(
                 res => {
                     if (res.data.code == 200) this.$Message.success(res.data.desc);
                     this.getList();
@@ -109,7 +109,7 @@ export default {
             );
         },
         handelPermit(data) {
-            permitStudent(this.userId,this.courseId, data.userId).then(
+            permitTeacher(this.userId,this.courseId, data.userId).then(
                 res => {
                     if (res.data.code == 200) this.$Message.success(res.data.desc);
                     this.getList();

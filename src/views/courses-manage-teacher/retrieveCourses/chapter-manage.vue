@@ -62,12 +62,12 @@ export default {
                     title: '章节名称',
                     align: 'center',
                     key: 'chapterName',
-                    width: 300
+                    width: 250
                 },
                 {
                     title: '题目',
                     align: 'center',
-                    width: 300,
+                    width: 200,
                     render: (h, params) => {
                         const courseId = params.row['courseId'] || '-'
                         const chapterId = params.row['chapterId'] || '-'
@@ -80,6 +80,25 @@ export default {
                         }
                         }, [
                         h('span', '题目管理')
+                        ])
+                    }
+                },
+                {
+                    title: '做题统计',
+                    align: 'center',
+                    width: 200,
+                    render: (h, params) => {
+                        const courseId = params.row['courseId'] || '-'
+                        const chapterId = params.row['chapterId'] || '-'
+                        return h('router-link', {
+                        props: {
+                            to: {
+                            name: 'static-analysis',
+                            params: { courseId, chapterId}
+                            }
+                        }
+                        }, [
+                        h('span', '去查看')
                         ])
                     }
                 },

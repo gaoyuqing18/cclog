@@ -5,7 +5,8 @@ import {router} from './router/index';
 import {appRouter} from './router/router';
 import store from './store';
 import App from './app.vue';
-
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 Vue.use(ViewUI);
 
 new Vue({
@@ -17,6 +18,7 @@ new Vue({
         currentPageName: ''
     },
     mounted () {
+        console.log(this, 'main.js')
         this.currentPageName = this.$route.name;
         // 显示打开的页面的列表
         this.$store.commit('setOpenedList');

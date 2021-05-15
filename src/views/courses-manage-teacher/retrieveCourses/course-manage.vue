@@ -45,7 +45,7 @@ export default {
     data() {
         return {
             courseTag:['上课申请管理', '题目管理', '人员管理', '评论管理', '回收站管理'],
-            courseTagIndex: 1,
+            courseTagIndex: 0,
             courseId: ''
         }
     },

@@ -115,13 +115,19 @@ export const otherRouter = {
             name: 'question-manage',
             title: '题目管理',
             component: () => import('@/views/courses-manage-teacher/retrieveCourses/question-manage.vue')
-            },
+        },
         {
             path: 'courses/retrieveCourses/:courseId/:chapterId/questionManage/:questionId',
             name: 'question-detail',
             title: '题目详情',
             component: () => import('@/views/courses-manage-student/retrieveCourses/question-detail.vue')
-            }
+        },
+        {
+            path: 'courses/teacher/retrieveCourses/:courseId/:chapterId/static-analysis',
+            name: 'static-analysis',
+            title: '我讲的课',
+            component: () => import('@/views/courses-manage-teacher/retrieveCourses/static-analysis.vue')
+        }
     ]
 }
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
@@ -173,51 +179,6 @@ export const appRouter = [
             }
         ]
     },
-    // {
-    //     path: '/blog',
-    //     icon: 'social-buffer',
-    //     name: 'component',
-    //     title: '博文管理',
-    //     component: Main,
-    //     children: [
-    //         {
-    //             path: 'category-list',
-    //             icon: 'ios-pricetags-outline',
-    //             name: 'category-list',
-    //             title: '分类列表',
-    //             component: () => import('@/views/blog/category-list/category-list.vue')
-    //         },
-    //         {
-    //             path: 'article-publish',
-    //             icon: 'compose',
-    //             name: 'article-publish',
-    //             title: '文章发布',
-    //             component: () => import('@/views/blog/article-publish/article-publish.vue')
-    //         },
-    //         {
-    //             path: 'article-list',
-    //             icon: 'ios-list-outline',
-    //             name: 'article-list',
-    //             title: '文章列表',
-    //             component: () => import('@/views/blog/article-list/article-list.vue')
-    //         }
-    //     ]
-    // },
-    // {
-    //     path: '/image',
-    //     icon: 'android-upload',
-    //     name: 'image',
-    //     title: '图片管理',
-    //     component: Main,
-    //     children: [
-    //         {
-    //             path: 'upload',
-    //             title: '文件上传',
-    //             name: 'upload',
-    //             component: () => import('@/views/image-manage/upload/upload.vue')
-    //         }
-    //     ]
-    // },
     {
         path: '/courses/teacher',
         icon: 'android-upload',
@@ -262,7 +223,22 @@ export const appRouter = [
                 component: () => import('@/views/courses-manage-assistant/retrieveCourses/retrieveCourses.vue')
             }
         ]
-    }
+    },
+    {
+        path: '/admin',
+        icon: 'android-upload',
+        name: 'admin',
+        title: '教师管理（管理员）',
+        component: Main,
+        children: [
+            {
+                path: '/person-apply',
+                title: '教师管理（管理员）',
+                name: 'person-apply',
+                component: () => import('@/views/admin/person-apply.vue')
+            }
+        ]
+    },
 ];
 
 export const routers = [loginRouter, registerRouter, otherRouter, locking, ...appRouter, page500, page403, page404];
