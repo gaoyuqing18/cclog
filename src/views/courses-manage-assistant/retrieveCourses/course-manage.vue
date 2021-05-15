@@ -6,15 +6,14 @@
 
        <div class="manage-right">
            <div v-if="courseTagIndex==0"> 
-              <div> 课程名 {{courseTagIndex}}</div>
-           </div>
-
-           <div v-if="courseTagIndex==1"> 
                <chapter-manage> </chapter-manage>
            </div>
 
-           <div v-if="courseTagIndex==2"> 
+           <div v-if="courseTagIndex==1"> 
               <person-manage> </person-manage>
+           </div>
+           <div v-if="courseTagIndex==2"> 
+              <apply-course-manage> </apply-course-manage>
            </div>
        </div>
         
@@ -24,16 +23,18 @@
 <script>
 import personManage from './person-manage.vue';
 import chapterManage from './chapter-manage.vue';
+import applyCourseManage from './apply-course-manage.vue'
     
 export default {
     components: {
        personManage,
-       chapterManage
+       chapterManage,
+       applyCourseManage
     },
     data() {
         return {
-            courseTag:['课程描述', '题目管理', '人员管理', '数据统计'],
-            courseTagIndex: 1,
+            courseTag:['题目管理', '人员管理', '上课申请管理'],
+            courseTagIndex: 0,
             courseId: ''
         }
     },
@@ -51,7 +52,7 @@ export default {
     },
     mounted() {
         this.courseId = this.$route.params.id
-        this.changeManage(1)
+        this.changeManage(0)
     }
 }
 </script>

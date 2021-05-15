@@ -63,7 +63,7 @@ export default {
     },
     mounted() {
         this.courseId = this.$route.params.id
-        this.changeManage(1)
+        this.changeManage(0)
     }
 }
 </script>

@@ -4,7 +4,7 @@
                 <Table stripe
                     :columns="columns"
                     :data="tableData"
-                    :height="550">
+                    :height="500">
                     >
                 </Table>
             </div>
@@ -13,7 +13,7 @@
 
 <script>
 
-import { retrieveTeacherApply, rejectTeacher, permitTeacher} from '@/libs/api';
+import { retrieveStudentApply, rejectStudent, permitStudent} from '@/libs/api';
 
 export default {
   data() {
@@ -29,9 +29,20 @@ export default {
         loading: false,
         columns: [
             {
-                title: '教师id',
+                title: '学生id',
                 align: 'center',
                 key: 'userId'
+            },
+            {
+                title: '课程id',
+                align: 'center',
+                key: 'courseId'
+            },
+            {
+                title: '课程名',
+                align: 'center',
+                key: 'courseName',
+                width: 250
             },
             {
                 title: '操作',
@@ -55,7 +66,7 @@ export default {
                                     }
                                 }
                             },
-                            '同意授权'
+                            '同意'
                         ),
                         h(
                             'Button',
@@ -70,7 +81,7 @@ export default {
                                     }
                                 }
                             },
-                            '拒绝授权'
+                            '拒绝'
                         )
                     ]);
                 }
@@ -80,19 +91,14 @@ export default {
   },
   methods: {
         getList() {
-            retrieveTeacherApply().then(res => {
+            retrieveStudentApply().then(res => {
                 if (res.data.data) {
-                   this.tableData = res.data.data.teacherApply;
-                } else {
-                  this.$Message.error(res.data.desc);
+                   this.tableData = res.data.data.reply;
                 }
-            },
-            err => {
-                    this.$Message.error('暂无管理员权限！！！');
-                });
+            });
         },
         handelReject(data) {
-            permitTeacher(this.userId,this.courseId, data.userId).then(
+            rejectStudent(this.userId,this.courseId, data.userId).then(
                 res => {
                     if (res.data.code == 200) this.$Message.success(res.data.desc);
                     this.getList();
@@ -103,7 +109,7 @@ export default {
             );
         },
         handelPermit(data) {
-            permitTeacher(this.userId,this.courseId, data.userId).then(
+            permitStudent(this.userId,this.courseId, data.userId).then(
                 res => {
                     if (res.data.code == 200) this.$Message.success(res.data.desc);
                     this.getList();
