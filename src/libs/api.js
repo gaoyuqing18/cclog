@@ -71,7 +71,7 @@ export const getAllCourseStu = (studentId) => http('get', `/exercise/student/${s
 
 
 // 查询上课的所有学生（教师/助教）
-export const getAllStudents = (courseId) => http('get', `/exercise/common/${courseId}/allStudents`);
+export const allStudentAndAssistant = (courseId) => http('get', `/exercise/common/${courseId}/allStudentAndAssistant`);
 
 
 // 查询章节下所有题目
@@ -111,4 +111,16 @@ export const commitComment = (courseId, data) => http('post', `/exercise/common/
 export const replyComment = (courseId, data) => http('post', `/exercise/common/${courseId}/replyComment`, data)
 
 
+// 学生申请上课
+export const applyForStudent = (courseId) => http('post', `/exercise/common/${courseId}/applyForStudent`)
+// 查询所有课程（所有人）
+export const retrieveAllCourses = () => http('get', `/exercise/common/retrieveAllCourses`)
+
+
+// 教师/助教查询某课程上课申请
+export const retrieveStudentApply = (userId, courseId) => http('get', `/exercise/teacherAndAssistant/${userId}/${courseId}/retrieveStudentApply`)
+// 教师/助教拒绝学生上课申请
+export const rejectStuden = (userId, courseId, studentId) => http('post', `/exercise/teacherAndAssistant/${userId}/${courseId}/rejectStudent/${studentId}`)
+// 教师/助教通过学生上课申请
+export const permitStudent = (userId, courseId, studentId) => http('get', `/exercise/teacherAndAssistant/${userId}/${courseId}/permitStudent/${studentId}`)
 

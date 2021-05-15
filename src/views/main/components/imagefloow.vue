@@ -7,13 +7,14 @@
       />
 
       <p class="title ellipsis2">{{item.courseName}}</p>
-      <a class="course-detail" @click='courseDetail(item)'>查看</a>
+      <a class="course-detail" @click='courseDetail(item)' v-if="!$route.name.includes('applyforstud')">查看</a>
       <a class="course-manage" @click='courseManage(item)' v-if="!$route.name.includes('student')">管理</a>
+      <a class="course-manage" @click='applyForStudentFun(item)' v-if="$route.name.includes('applyforstud')">申请上课</a>
   </div>
 </div>
 </template>
 <script>
-import { getAllCategories, getArticle, editArticle, delArticle, updateAllArticle } from '@/libs/api';
+import { getAllCategories, getArticle, editArticle, delArticle, updateAllArticle,applyForStudent } from '@/libs/api';
 export default {
     name: 'imageflow-list',
     props: {
@@ -30,7 +31,7 @@ export default {
         
     },
     mounted() {
-       
+        console.log(this.$route.name)
     },
     methods: {
         courseDetail(item) {
@@ -46,6 +47,21 @@ export default {
             } else{
                 this.$router.push({ name: 'course_manage_teacher', params: {id: item.courseId}});
             }
+        },
+        applyForStudentFun(item) {
+            applyForStudent(item.courseId).then(
+                res => {
+                    if(res.data.code == 200) {
+                        this.$Message.success('申请上课成功！！！！！！')
+                    } else {
+                        this.$Message.error('申请上课失败！！！！！！')
+                    }
+                },
+                err => {
+                   this.$Message.error('申请上课失败！！！！！！')
+                }
+            )
+
         }
     }
 };

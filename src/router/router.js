@@ -142,6 +142,21 @@ export const appRouter = [
         ]
     },
     {
+        path: '/courselist',
+        icon: 'key',
+        name: 'courselist',
+        title: '全部课程',
+        component: Main,
+        children: [
+            {
+                path: 'applyforstudent',
+                title: '全部课程',
+                name: 'applyforstudent',
+                component: () => import('@/views/course-list/applyforstudent.vue')
+            }
+        ]
+    },
+    {
         path: '/access-test',
         icon: 'lock-combination',
         title: '权限测试页',

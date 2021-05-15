@@ -3,15 +3,15 @@
        <Table stripe
             :columns="columns"
             :data="tableData"
-            :height="500">
+            :height="600">
              <h3 slot="header"
-                style="text-align:center; color:#495060">学生列表</h3>
+                style="text-align:center; color:#495060">人员列表</h3>
         </Table>
     </div>
 </template>
 
 <script>
-   import { getAllStudents} from '@/libs/api';
+   import { allStudentAndAssistant} from '@/libs/api';
 
 export default {
     data() {
@@ -22,14 +22,21 @@ export default {
                 {
                     title: 'id',
                     align: 'center',
-                    key: 'id',
-                    width: 300
+                    // key: 'id',
+                    width: 300,
+                    render: (h, params) => {
+                        return h ('span', params.row.studentId || params.row.id)
+                    }
                 },
                 {
-                    title: '姓名',
+                    title: '角色',
                     align: 'center',
-                    key: 'studentId',
-                    width: 300
+                    // key: 'studentId',
+                    width: 300,
+                    render: (h, params) => {
+                        let role = params.row.studentId? '学生' : '助教'
+                        return h ('span', role)
+                    }
                 },
                 {
                     title: '操作',
@@ -61,9 +68,9 @@ export default {
     },
     methods: {
         getList() {
-            getAllStudents(this.courseId).then(res => {
+            allStudentAndAssistant(this.courseId).then(res => {
                 if (res.data.data) {
-                   this.tableData = res.data.data;
+                   this.tableData = [...res.data.data.assistant, ...res.data.data.student];
                 }
             });
         }

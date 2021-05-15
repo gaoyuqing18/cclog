@@ -117,14 +117,13 @@ export default {
         },
         handelCategoryStatus(postdata) {
             let {question, questionValueObject} = postdata
-            // let postobj = {...questionValueObject, ...question}
-            // postobj.parse = postobj.parsing
-            // delete postobj.author
-            // delete postobj.questionId
-            // delete postobj.submissionTime
-            // delete postobj.tqNo
-            // delete postobj.submissionTime
-            reductionRecycleQuestions(this.userId,this.courseId, {...questionValueObject, ...question}).then(
+            let postobj = {...questionValueObject, ...question}
+            postobj.parse = postobj.parsing
+            delete postobj.author
+            delete postobj.submissionTime
+            delete postobj.tqNo
+            delete postobj.parsing
+            reductionRecycleQuestions(this.userId,this.courseId, postobj).then(
                 res => {
                     if (res.data.code == 200) this.$Message.success(res.data.desc);
                     this.getList();

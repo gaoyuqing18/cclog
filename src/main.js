@@ -34,6 +34,8 @@ new Vue({
                 tagsList.push(...item.children);
             }
         });
+        console.log(appRouter)
+        console.log(tagsList)
         this.$store.commit('setTagsList', tagsList);
     }
 });

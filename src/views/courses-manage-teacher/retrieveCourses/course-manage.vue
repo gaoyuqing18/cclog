@@ -6,7 +6,7 @@
 
        <div class="manage-right">
            <div v-if="courseTagIndex==0"> 
-              <div> 课程名 {{courseTagIndex}}</div>
+              <apply-course-manage> </apply-course-manage>
            </div>
 
            <div v-if="courseTagIndex==1"> 
@@ -32,17 +32,19 @@ import personManage from './person-manage.vue';
 import chapterManage from './chapter-manage.vue';
 import recycleManage from './recycle-manage.vue';
 import commentManage from './comment-manage.vue';
+import applyCourseManage from './apply-course-manage.vue';
     
 export default {
     components: {
        personManage,
        chapterManage,
        recycleManage,
-       commentManage
+       commentManage,
+       applyCourseManage
     },
     data() {
         return {
-            courseTag:['课程描述', '题目管理', '人员管理', '评论管理', '回收站管理'],
+            courseTag:['上课申请管理', '题目管理', '人员管理', '评论管理', '回收站管理'],
             courseTagIndex: 1,
             courseId: ''
         }
